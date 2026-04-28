@@ -21,18 +21,18 @@ export const metadata: Metadata = {
 const services = [
 	{
 		title: "Build",
-		body: "A new website, built to your brief. I design, develop, and launch a fast, modern site that represents your business honestly and looks good on every screen.",
-		pricing: "From €1,200 — fixed price, agreed before work starts.",
+		body: "I can create a brand new website, or rebuild your existing site. We will make a design plan together. Then I handle the build, present the new site and we will look at final changes. The result is fast on any device, easy on the eye, and built to last.",
+		pricing: "Fixed price, agreed up front.",
 	},
 	{
 		title: "Maintain",
-		body: "Once the site is live I keep it running. That means security updates, hosting, backups, and making sure nothing silently breaks. You focus on your business; I watch the site.",
-		pricing: "€75 per month, cancel any time.",
+		body: "The most important, and most boring part. Once the site is live, I keep it healthy: updates, security patches, backups, monitoring, and basic SEO checks. Quietly in the background, every month, so you don't have to think about it.",
+		pricing: "Low monthly fee, no hidden costs.",
 	},
 	{
 		title: "Change requests",
-		body: "Business changes, and your site should follow. Swap photos, update opening hours, rewrite a paragraph, add a new service — smaller changes are included in the monthly fee.",
-		pricing: "Included in maintenance. Larger changes quoted separately.",
+		body: "Want to update opening hours, increase a price, or change a sentence on the homepage? Smaller changes to the site are free. For anything more, like a new page, a swapped image, or a design tweak, send the request and I'll send a quote back before I start work.",
+		pricing: "Smaller changes included. Larger work: quoted before I start.",
 	},
 ];
 
@@ -94,14 +94,15 @@ export default function HomePage() {
 							Built right. Kept running. Updated when you need it.
 						</p>
 						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-							Every business or entrepreneur is expected to have a fancy and
-							modern website. Thanks to AI everyone can now design and deploy
-							their own website. But web development is still complex and
-							maintaining a site still takes time and consistency. But AI also
-							made developers way more productive. It's now possible to offer
-							professional services for a much lower fee, therefore making it a
-							lot more interesting to let your web design and maintenance be
-							handled by someone like me.
+							Every business needs a modern website. AI tools let anyone design
+							and deploy one, but web development is still complex, and keeping
+							a site running still takes consistent attention.
+							<br />
+							<br />
+							The same tools made developers far more productive. Professional
+							design and maintenance no longer needs an enterprise budget. I
+							handle it, and the site stops needing your attention. The changes
+							you do want? Easy.
 						</p>
 						<div className="mt-8">
 							<Link
@@ -116,73 +117,10 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			{/* Why — Out with the Old / In with the New */}
-			<section
-				aria-labelledby="why-heading"
-				className="bg-muted/50 px-4 py-24 sm:px-6 md:py-32"
-			>
-				<div className="mx-auto max-w-6xl">
-					<h2
-						id="why-heading"
-						className="mb-12 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
-					>
-						Why it matters
-					</h2>
-					<div className="grid gap-12 lg:grid-cols-2">
-						{/* Out with the Old */}
-						<div className="flex flex-col gap-6">
-							<div className="overflow-hidden rounded-lg">
-								<Image
-									src="/dan-burton-wHsOV75Xi8Y-unsplash.jpg"
-									alt="An old, cluttered desk setup with an ageing laptop"
-									width={640}
-									height={360}
-									className="h-56 w-full object-cover saturate-[0.7]"
-								/>
-							</div>
-							<div>
-								<h3 className="text-xl font-semibold text-foreground">
-									Out with the old
-								</h3>
-								<p className="mt-3 leading-relaxed text-muted-foreground">
-									Templates that looked fine three years ago, plugins that
-									stopped updating, a hosting dashboard nobody checks. A website
-									that started as a quick fix and turned into a source of quiet
-									stress every time someone asks for the URL.
-								</p>
-							</div>
-						</div>
-
-						{/* In with the New */}
-						<div className="flex flex-col gap-6">
-							<div className="overflow-hidden rounded-lg">
-								<Image
-									src="/pakata-goh-RDolnHtjVCY-unsplash.jpg"
-									alt="A clean, modern workspace with a laptop and tidy desk"
-									width={640}
-									height={360}
-									className="h-56 w-full object-cover saturate-[0.7]"
-								/>
-							</div>
-							<div>
-								<h3 className="text-xl font-semibold text-foreground">
-									In with the new
-								</h3>
-								<p className="mt-3 leading-relaxed text-muted-foreground">
-									A site built on a solid foundation, fast on every device, and
-									maintained so it stays that way. When you need a change, you
-									ask for it. I handle the rest.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-
 			{/* Services */}
 			<section
 				aria-labelledby="services-heading"
-				className="bg-background px-4 py-24 sm:px-6 md:py-32"
+				className="bg-muted/50 px-4 py-24 sm:px-6 md:py-32"
 			>
 				<div className="mx-auto max-w-6xl">
 					<h2
@@ -216,10 +154,120 @@ export default function HomePage() {
 				</div>
 			</section>
 
+			{/* Why — I hate WordPress / I love Buddy */}
+			<section
+				aria-labelledby="why-heading"
+				className="bg-background px-4 py-24 sm:px-6 md:py-32"
+			>
+				<div className="mx-auto max-w-6xl">
+					<h2
+						id="why-heading"
+						className="mb-12 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+					>
+						Why it matters
+					</h2>
+					<div className="grid gap-12 lg:grid-cols-2">
+						{/* I hate WordPress */}
+						<div className="flex flex-col gap-6">
+							<div className="overflow-hidden rounded-lg">
+								<Image
+									src="/ChatGPT%20Image%20Apr%2028%2C%202026%2C%2002_37_51%20PM.png"
+									alt="A frustrated person in front of a broken WordPress site"
+									width={640}
+									height={360}
+									className="h-56 w-full object-cover saturate-[0.7]"
+								/>
+							</div>
+							<div>
+								<h3 className="text-xl font-semibold text-foreground">
+									I hate WordPress
+								</h3>
+								<p className="mt-3 leading-relaxed text-muted-foreground">
+									If you currently have a website running in WordPress, please
+									let me rebuild it. Every person moved away from WordPress
+									makes the world a little bit better. I have a lot of respect
+									for the mission of WordPress, to make everyone, technical or
+									not, able to create websites with free, open-source software.
+									But working with it is a nightmare. Changes can cause a whole
+									site to break down and the vulnerabilities are off the charts.
+								</p>
+								<p className="mt-3 leading-relaxed text-muted-foreground">
+									If you choose to use my services, changes to the site must go
+									through me, and I do charge by a monthly subscription. But I
+									believe it will make your life so much easier.
+								</p>
+							</div>
+						</div>
+
+						{/* I love Buddy */}
+						<div className="flex flex-col gap-6">
+							<div className="overflow-hidden rounded-lg">
+								<Image
+									src="/igor-omilaev-eGGFZ5X2LnA-unsplash.jpg"
+									alt="A futuristic AI assistant helping with web development"
+									width={640}
+									height={360}
+									className="h-56 w-full object-cover saturate-[0.7]"
+								/>
+							</div>
+							<div>
+								<h3 className="text-xl font-semibold text-foreground">
+									I love Buddy
+								</h3>
+								<p className="mt-3 leading-relaxed text-muted-foreground">
+									So how can I keep the costs down. I call him Buddy, my AI
+									buddy (I&apos;m not very creative). Buddy can recreate your
+									old website in a modern framework just by getting the URL. It
+									can make changes to the code based on emails clients send me.
+									And it integrates with my hosting platform, making it possible
+									to manage multiple projects at once.
+								</p>
+								<p className="mt-3 leading-relaxed text-muted-foreground">
+									So do I do anything? Well yes. All decisions go through me. I
+									keep a close eye on security. All changes are tested and I
+									will never let Buddy answer the questions you have for me.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* How it works */}
+			<section
+				aria-labelledby="how-it-works-heading"
+				className="bg-muted/50 px-4 py-24 sm:px-6 md:py-32"
+			>
+				<div className="mx-auto max-w-6xl">
+					<h2
+						id="how-it-works-heading"
+						className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+					>
+						How it works
+					</h2>
+					<p className="mb-12 max-w-2xl text-lg text-muted-foreground">
+						From first contact to live site in a handful of steps.
+					</p>
+					<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+						{steps.map(({ n, title, body }) => (
+							<div key={n} className="flex flex-col gap-4">
+								<div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
+									<span className="text-sm font-semibold">{n}</span>
+								</div>
+								<h3 className="text-lg font-semibold text-foreground">
+									{title}
+								</h3>
+								<p className="leading-relaxed text-muted-foreground">{body}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+
 			{/* Maintenance */}
 			<section
 				aria-labelledby="maintenance-heading"
-				className="bg-muted/50 px-4 py-24 sm:px-6 md:py-32"
+				className="bg-background px-4 py-24 sm:px-6 md:py-32"
 			>
 				<div className="mx-auto max-w-6xl">
 					<div className="grid items-center gap-12 lg:grid-cols-2">
@@ -260,37 +308,6 @@ export default function HomePage() {
 								className="h-full min-h-72 w-full object-cover saturate-[0.7]"
 							/>
 						</div>
-					</div>
-				</div>
-			</section>
-
-			{/* How it works */}
-			<section
-				aria-labelledby="how-it-works-heading"
-				className="bg-background px-4 py-24 sm:px-6 md:py-32"
-			>
-				<div className="mx-auto max-w-6xl">
-					<h2
-						id="how-it-works-heading"
-						className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
-					>
-						How it works
-					</h2>
-					<p className="mb-12 max-w-2xl text-lg text-muted-foreground">
-						From first contact to live site in a handful of steps.
-					</p>
-					<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-						{steps.map(({ n, title, body }) => (
-							<div key={n} className="flex flex-col gap-4">
-								<div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-									<span className="text-sm font-semibold">{n}</span>
-								</div>
-								<h3 className="text-lg font-semibold text-foreground">
-									{title}
-								</h3>
-								<p className="leading-relaxed text-muted-foreground">{body}</p>
-							</div>
-						))}
 					</div>
 				</div>
 			</section>
