@@ -26,36 +26,36 @@ const services = [
 	},
 	{
 		title: "Maintain",
-		body: "The most important, and most boring part. Once the site is live, I keep it healthy: updates, security patches, backups, monitoring, and basic SEO checks. Quietly in the background, every month, so you don't have to think about it.",
+		body: "The most important, and most boring part. Once the site is live, I keep it healthy: updates, security patches, backups, monitoring, and basic SEO checks. All done quietly in the background. This is what every site needs and you don't want to do.",
 		pricing: "Low monthly fee, no hidden costs.",
 	},
 	{
-		title: "Change requests",
+		title: "Change",
 		body: "Want to update opening hours, increase a price, or change a sentence on the homepage? Smaller changes to the site are free. For anything more, like a new page, a swapped image, or a design tweak, send the request and I'll send a quote back before I start work.",
-		pricing: "Smaller changes included. Larger work: quoted before I start.",
+		pricing: "Smaller changes included.",
 	},
 ];
 
 const steps = [
 	{
 		n: "01",
-		title: "Consultation",
-		body: "A free 30-minute video call. You tell me what your business does and what you need from a website. No preparation needed.",
+		title: "Start",
+		body: "In the start you will be directed to a form. It will give me a good starting point and in this form you can also ask any questions you might have. After you simply schedule the call. I will get back to you to confirm and answer your questions.",
 	},
 	{
 		n: "02",
-		title: "Plan",
-		body: "I send a short written proposal: what I will build, what it will cost, and how long it will take. Nothing starts until you have signed off on it.",
+		title: "Homework",
+		body: "Yes, homework. I can do a lot but you have to deliver the content. Text, images or any other media you want on the site. What also helps are some examples of websites you like. The more you have finished, the better.",
 	},
 	{
 		n: "03",
-		title: "Build",
-		body: "I design and build the site. One round of feedback is included. You see the site before it goes live.",
+		title: "Call",
+		body: "A free 30-minute video call. We will go though a design plan together where we will talk about your business needs. After the call, I send you a proposal with the final price and the design plan. When you sign off, I will go to work.",
 	},
 	{
 		n: "04",
-		title: "Launch and maintain",
-		body: "The site goes live. From that point I handle hosting, updates, and smaller changes as part of the monthly plan.",
+		title: "Build",
+		body: "I handle the build. Within a week or two the site goes up on a preview link. You can browse it on your phone or laptop just like any real site. For the final touch ups, tell me what feels right and what doesn't and I will do the final changes.",
 	},
 ];
 
@@ -243,10 +243,12 @@ export default function HomePage() {
 						id="how-it-works-heading"
 						className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 					>
-						How it works
+						Start the build
 					</h2>
 					<p className="mb-12 max-w-2xl text-lg text-muted-foreground">
-						From first contact to live site in a handful of steps.
+						From first contact to live site in a handful of steps. There will be
+						work for you involved too, but I aim to make the process as easy for
+						you uas possible.
 					</p>
 					<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
 						{steps.map(({ n, title, body }) => (
@@ -261,6 +263,12 @@ export default function HomePage() {
 							</div>
 						))}
 					</div>
+					<p className="mt-12 text-right text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl">
+						And you are live!
+					</p>
+					<p className="mt-2 text-right text-lg text-muted-foreground">
+						From here the maintenance takes over.
+					</p>
 				</div>
 			</section>
 
@@ -270,45 +278,63 @@ export default function HomePage() {
 				className="bg-background px-4 py-24 sm:px-6 md:py-32"
 			>
 				<div className="mx-auto max-w-6xl">
-					<div className="grid items-center gap-12 lg:grid-cols-2">
-						<div>
-							<h2
-								id="maintenance-heading"
-								className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
-							>
-								Maintenance that actually means something
-							</h2>
-							<p className="mb-6 leading-relaxed text-muted-foreground">
-								Most maintenance plans are just hosting with a different label.
-								Mine is not. I actively keep your site in good shape so you
-								never have to think about it.
-							</p>
-							<ul className="flex flex-col gap-3">
-								{[
-									"Hosting on a fast, reliable platform",
-									"Automatic daily backups",
-									"Security and dependency updates",
-									"Uptime monitoring — I notice problems before you do",
-									"Smaller content changes included",
-									"Direct contact — no ticket system, no waiting queue",
-								].map((item) => (
-									<li key={item} className="flex items-start gap-3">
-										<CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-										<span className="text-muted-foreground">{item}</span>
-									</li>
-								))}
-							</ul>
-						</div>
-						<div className="overflow-hidden rounded-lg">
-							<Image
-								src="/microsoft-365-1MeZCPon3vk-unsplash.jpg"
-								alt="A small business owner working at a clean desk"
-								width={640}
-								height={480}
-								className="h-full min-h-72 w-full object-cover saturate-[0.7]"
-							/>
-						</div>
+					<div className="max-w-2xl mb-12">
+						<h2
+							id="maintenance-heading"
+							className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+						>
+							Full maintenance
+						</h2>
+						<p className="leading-relaxed text-muted-foreground">
+							This is where so many fail. Don't do this for a year and best
+							scenario, your site looks outdated and is slow. Worst case, it
+							gets hacked and takes your business down with it.
+						</p>
 					</div>
+					<ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+						{[
+							{
+								title: "Updates and security patches",
+								body: "Framework and dependencies kept current, applied before anything breaks. Critical patches get attention the same day.",
+							},
+							{
+								title: "Technical SEO health",
+								body: "Page speed, broken links, metadata, sitemap, structured data. Reviewed once a month with fixes shipped.",
+							},
+							{
+								title: "Uptime monitoring",
+								body: "I see problems before you do. Verify your site is up and running. If it goes down, I get an alert and start working immediately.",
+							},
+							{
+								title: "Compliance check",
+								body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
+							},
+							{
+								title: "Form and functional checks",
+								body: "Once a month I run a test submission through your contact form to make sure it's still working.",
+							},
+							{
+								title: "Content drift check",
+								body: "Once a quarter I scan for outdated information (last year's footer, holiday hours that don't apply anymore, broken external links) and flag what to update.",
+							},
+							{
+								title: "Domain, DNS, SSL, and backups",
+								body: "Quarterly health check, plus daily off-site backups recoverable to any point in the last 30 days.",
+							},
+							{
+								title: "One free text change per month",
+								body: "Opening hours, a price, a sentence on the homepage. Bigger changes go through Change requests.",
+							},
+						].map(({ title, body }) => (
+							<li key={title} className="flex flex-col gap-2">
+								<CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+								<p className="font-medium text-foreground">{title}</p>
+								<p className="text-sm leading-relaxed text-muted-foreground">
+									{body}
+								</p>
+							</li>
+						))}
+					</ul>
 				</div>
 			</section>
 
