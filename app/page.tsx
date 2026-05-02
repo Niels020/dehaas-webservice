@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, CheckCircle2, CircleDot } from "lucide-react";
+import { ArrowDown, ArrowRight, CheckCircle2, CircleDot } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,16 +23,19 @@ const services = [
 		title: "Build",
 		body: "I can create a brand new website, or rebuild your existing site. We will make a design plan together. Then I handle the build, present the new site and we will look at final changes. The result is fast on any device, easy on the eye, and built to last.",
 		pricing: "Fixed price, agreed up front.",
+		href: "#how-it-works-heading",
 	},
 	{
 		title: "Maintain",
 		body: "The most important, and most boring part. Once the site is live, I keep it healthy: updates, security patches, backups, monitoring, and basic SEO checks. All done quietly in the background. This is what every site needs and you don't want to do.",
 		pricing: "Low monthly fee, no hidden costs.",
+		href: "#maintenance-heading",
 	},
 	{
 		title: "Change",
 		body: "Want to update opening hours, increase a price, or change a sentence on the homepage? Smaller changes to the site are free. For anything more, like a new page, a swapped image, or a design tweak, send the request and I'll send a quote back before I start work.",
 		pricing: "Smaller changes included.",
+		href: "#change-requests-heading",
 	},
 ];
 
@@ -74,6 +77,107 @@ const faqTeaser = [
 	},
 ];
 
+const hero = {
+	heading: "A site that works, and stays that way.",
+	subheadline: "Built right. Kept running. Updated when you need it.",
+	body1:
+		"Every business needs a modern website. AI tools let anyone design and deploy one, but web development is still complex, and keeping a site running still takes consistent attention.",
+	body2:
+		"The same tools made developers far more productive. Professional design and maintenance no longer needs an enterprise budget. I handle it, and the site stops needing your attention. The changes you do want? Easy.",
+	cta: "Book a free 30-minute video call",
+};
+
+const servicesSection = {
+	heading: "What I do",
+	subheading: "Three things, done well.",
+};
+
+const whySection = {
+	heading: "Why choose me",
+	subheading:
+		"Choosing how to set up your website is a big decision that can get very complex. I think it's mostly about trust. You want honest answers, someone that delivers on their agreed services, and does not hide additional costs.",
+};
+
+const whyReasons = [
+	{
+		title: "One person, no nonsense",
+		body: "There is no sales team, no account manager, no confusing contract. You deal with me directly, from the first call to every question after launch. You get honest answers, a fixed price agreed up front, and someone who actually knows your site. Small business owner to small business owner.",
+	},
+	{
+		title: "Costs stay low",
+		body: "AI tools let me work faster and manage more without cutting corners. Recreating a site, applying routine changes, monitoring deployments — a lot of the time-consuming work is automated. That means the savings are passed on to you. Professional quality without the agency price tag.",
+	},
+	{
+		title: "I take it off your plate",
+		body: "Building a site is the easy part. Keeping it running, secure, and up to date is where most businesses quietly fall behind. I handle all of it — maintenance, updates, and changes — so you never have to think about it. Want to update your opening hours or swap out a photo? Send me a message and it's done.",
+	},
+];
+
+const howItWorksSection = {
+	heading: "Start the build",
+	subheading:
+		"From first contact to live site in a handful of steps. There will be work for you involved too, but I aim to make the process as easy for you as possible.",
+	outro: "And you are live!",
+	outroSub: "From here the maintenance takes over.",
+};
+
+const maintenanceSection = {
+	heading: "Full maintenance",
+	subheading:
+		"This is where so many fail. Don't do this for a year and best scenario, your site looks outdated and is slow. Worst case, it gets hacked and takes your business down with it.",
+};
+
+const maintenanceChecks = [
+	{
+		title: "Updates and security patches",
+		body: "Framework and dependencies kept current, applied before anything breaks. Critical patches get attention the same day.",
+	},
+	{
+		title: "Technical SEO health",
+		body: "Page speed, broken links, metadata, sitemap, structured data. Reviewed once a month with fixes shipped.",
+	},
+	{
+		title: "Uptime monitoring",
+		body: "I see problems before you do. Verify your site is up and running. If it goes down, I get an alert and start working immediately.",
+	},
+	{
+		title: "Compliance check",
+		body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
+	},
+	{
+		title: "Form and functional checks",
+		body: "Once a month I run a test submission through your contact form to make sure it's still working.",
+	},
+	{
+		title: "Content drift check",
+		body: "Once a quarter I scan for outdated information (last year's footer, holiday hours that don't apply anymore, broken external links) and flag what to update.",
+	},
+	{
+		title: "Domain, DNS, SSL, and backups",
+		body: "Quarterly health check, plus daily off-site backups recoverable to any point in the last 30 days.",
+	},
+	{
+		title: "One free text change per month",
+		body: "Opening hours, a price, a sentence on the homepage. Bigger changes go through Change requests.",
+	},
+];
+
+const changeRequestsSection = {
+	heading: "Change requests",
+	subheading: "All changes you want, done by me.",
+	body: "Whenever you want something changed, send me an email. Tell me where the change should be and what you want it to say or show. One smaller text change per month is included — think opening hours, a price, or a sentence on the homepage. For anything bigger, like a new page or a redesigned section, I send you a quote before I start. Every change goes through me, which means it is done properly and nothing breaks. The trade-off is that you cannot make changes yourself and depend on me when something needs updating. Most clients find that a fair deal.",
+};
+
+const faqSection = {
+	heading: "Common questions",
+	subheading: "Quick answers to things most people ask first.",
+};
+
+const ctaSection = {
+	heading: "Still on the fence?",
+	button: "Ask a question",
+};
+
 export default function HomePage() {
 	return (
 		<>
@@ -88,28 +192,23 @@ export default function HomePage() {
 							id="hero-heading"
 							className="text-4xl font-semibold leading-tight tracking-[-0.02em] text-foreground sm:text-5xl md:text-6xl"
 						>
-							A site that works, and stays that way.
+							{hero.heading}
 						</h1>
 						<p className="mt-6 text-xl text-muted-foreground sm:text-2xl">
-							Built right. Kept running. Updated when you need it.
+							{hero.subheadline}
 						</p>
 						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-							Every business needs a modern website. AI tools let anyone design
-							and deploy one, but web development is still complex, and keeping
-							a site running still takes consistent attention.
+							{hero.body1}
 							<br />
 							<br />
-							The same tools made developers far more productive. Professional
-							design and maintenance no longer needs an enterprise budget. I
-							handle it, and the site stops needing your attention. The changes
-							you do want? Easy.
+							{hero.body2}
 						</p>
 						<div className="mt-8">
 							<Link
 								href="/contact"
 								className={cn(buttonVariants({ size: "lg" }), "gap-2")}
 							>
-								Book a free 30-minute video call
+								{hero.cta}
 								<ArrowRight className="h-4 w-4" />
 							</Link>
 						</div>
@@ -127,13 +226,13 @@ export default function HomePage() {
 						id="services-heading"
 						className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 					>
-						What I do
+						{servicesSection.heading}
 					</h2>
 					<p className="mb-12 max-w-2xl text-lg text-muted-foreground">
-						Three things, done well.
+						{servicesSection.subheading}
 					</p>
 					<div className="grid gap-6 md:grid-cols-3">
-						{services.map(({ title, body, pricing }) => (
+						{services.map(({ title, body, pricing, href }) => (
 							<Card key={title} className="flex flex-col border-border">
 								<CardHeader>
 									<CardTitle className="text-lg font-semibold">
@@ -144,9 +243,18 @@ export default function HomePage() {
 									<p className="flex-1 leading-relaxed text-muted-foreground">
 										{body}
 									</p>
-									<p className="text-sm italic text-muted-foreground">
-										{pricing}
-									</p>
+									<div className="flex items-center justify-between">
+										<p className="text-sm italic text-muted-foreground">
+											{pricing}
+										</p>
+										<a
+											href={href}
+											aria-label={`Read more about ${title}`}
+											className="text-primary transition-colors hover:text-primary/70"
+										>
+											<ArrowDown className="h-4 w-4" />
+										</a>
+									</div>
 								</CardContent>
 							</Card>
 						))}
@@ -154,80 +262,47 @@ export default function HomePage() {
 				</div>
 			</section>
 
-			{/* Why — I hate WordPress / I love Buddy */}
+			{/* Why choose me */}
 			<section
 				aria-labelledby="why-heading"
 				className="bg-background px-4 py-24 sm:px-6 md:py-32"
 			>
 				<div className="mx-auto max-w-6xl">
-					<h2
-						id="why-heading"
-						className="mb-12 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
-					>
-						Why it matters
-					</h2>
-					<div className="grid gap-12 lg:grid-cols-2">
-						{/* I hate WordPress */}
-						<div className="flex flex-col gap-6">
+					<div className="grid items-start gap-12 lg:grid-cols-2">
+						{/* Left — heading, subheading, image */}
+						<div className="lg:sticky lg:top-24">
+							<h2
+								id="why-heading"
+								className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+							>
+							{whySection.heading}
+						</h2>
+						<p className="mb-8 text-lg text-muted-foreground">
+							{whySection.subheading}
+							</p>
 							<div className="overflow-hidden rounded-lg">
 								<Image
-									src="/ChatGPT%20Image%20Apr%2028%2C%202026%2C%2002_37_51%20PM.png"
-									alt="A frustrated person in front of a broken WordPress site"
+									src="/pakata-goh-RDolnHtjVCY-unsplash.jpg"
+									alt="A person having an honest one-on-one conversation"
 									width={640}
-									height={360}
-									className="h-56 w-full object-cover saturate-[0.7]"
+									height={480}
+									className="h-80 w-full object-cover saturate-[0.7]"
 								/>
-							</div>
-							<div>
-								<h3 className="text-xl font-semibold text-foreground">
-									I hate WordPress
-								</h3>
-								<p className="mt-3 leading-relaxed text-muted-foreground">
-									If you currently have a website running in WordPress, please
-									let me rebuild it. Every person moved away from WordPress
-									makes the world a little bit better. I have a lot of respect
-									for the mission of WordPress, to make everyone, technical or
-									not, able to create websites with free, open-source software.
-									But working with it is a nightmare. Changes can cause a whole
-									site to break down and the vulnerabilities are off the charts.
-								</p>
-								<p className="mt-3 leading-relaxed text-muted-foreground">
-									If you choose to use my services, changes to the site must go
-									through me, and I do charge by a monthly subscription. But I
-									believe it will make your life so much easier.
-								</p>
 							</div>
 						</div>
 
-						{/* I love Buddy */}
-						<div className="flex flex-col gap-6">
-							<div className="overflow-hidden rounded-lg">
-								<Image
-									src="/igor-omilaev-eGGFZ5X2LnA-unsplash.jpg"
-									alt="A futuristic AI assistant helping with web development"
-									width={640}
-									height={360}
-									className="h-56 w-full object-cover saturate-[0.7]"
-								/>
-							</div>
-							<div>
-								<h3 className="text-xl font-semibold text-foreground">
-									I love Buddy
-								</h3>
-								<p className="mt-3 leading-relaxed text-muted-foreground">
-									So how can I keep the costs down. I call him Buddy, my AI
-									buddy (I&apos;m not very creative). Buddy can recreate your
-									old website in a modern framework just by getting the URL. It
-									can make changes to the code based on emails clients send me.
-									And it integrates with my hosting platform, making it possible
-									to manage multiple projects at once.
-								</p>
-								<p className="mt-3 leading-relaxed text-muted-foreground">
-									So do I do anything? Well yes. All decisions go through me. I
-									keep a close eye on security. All changes are tested and I
-									will never let Buddy answer the questions you have for me.
-								</p>
-							</div>
+						{/* Right — three reasons */}
+						<div className="flex flex-col divide-y divide-border pl-24 pr-24">
+							{whyReasons.map(({ title, body }) => (
+								<div key={title} className="py-10 first:pt-0 last:pb-0">
+									<h3 className="mb-3 text-xl font-semibold text-foreground">
+										{title}
+									</h3>
+									<p className="leading-relaxed text-muted-foreground">
+										{body}
+									</p>
+								</div>
+							))}
 						</div>
 					</div>
 				</div>
@@ -241,14 +316,12 @@ export default function HomePage() {
 				<div className="mx-auto max-w-6xl">
 					<h2
 						id="how-it-works-heading"
-						className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+						className="mb-4 scroll-mt-24 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 					>
-						Start the build
+						{howItWorksSection.heading}
 					</h2>
 					<p className="mb-12 max-w-2xl text-lg text-muted-foreground">
-						From first contact to live site in a handful of steps. There will be
-						work for you involved too, but I aim to make the process as easy for
-						you uas possible.
+						{howItWorksSection.subheading}
 					</p>
 					<div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
 						{steps.map(({ n, title, body }) => (
@@ -264,10 +337,10 @@ export default function HomePage() {
 						))}
 					</div>
 					<p className="mt-12 text-right text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl">
-						And you are live!
+						{howItWorksSection.outro}
 					</p>
 					<p className="mt-2 text-right text-lg text-muted-foreground">
-						From here the maintenance takes over.
+						{howItWorksSection.outroSub}
 					</p>
 				</div>
 			</section>
@@ -277,64 +350,90 @@ export default function HomePage() {
 				aria-labelledby="maintenance-heading"
 				className="bg-background px-4 py-24 sm:px-6 md:py-32"
 			>
-				<div className="mx-auto max-w-6xl">
-					<div className="max-w-2xl mb-12">
-						<h2
-							id="maintenance-heading"
-							className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
-						>
-							Full maintenance
-						</h2>
-						<p className="leading-relaxed text-muted-foreground">
-							This is where so many fail. Don't do this for a year and best
-							scenario, your site looks outdated and is slow. Worst case, it
-							gets hacked and takes your business down with it.
-						</p>
+				<div className="mx-auto max-w-6xl pl-24">
+					<div className="grid items-start gap-32 lg:grid-cols-[2fr_3fr]">
+						{/* Left — 8 checks */}
+						<ul className="flex flex-col divide-y divide-border">
+							{maintenanceChecks.map(({ title, body }) => (
+								<li key={title} className="flex gap-4 py-6">
+									<CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+									<div>
+										<p className="font-medium text-foreground">{title}</p>
+										<p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+											{body}
+										</p>
+									</div>
+								</li>
+							))}
+						</ul>
+
+						{/* Right — heading, subheading, image */}
+						<div className="lg:sticky lg:top-24">
+							<h2
+								id="maintenance-heading"
+								className="mb-4 scroll-mt-24 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+							>
+								{maintenanceSection.heading}
+							</h2>
+							<p className="mb-8 text-lg leading-relaxed text-muted-foreground">
+								{maintenanceSection.subheading}
+							</p>
+							<div className="overflow-hidden rounded-lg">
+								<Image
+									src="/glenn-carstens-peters-P1qyEf1g0HU-unsplash.jpg"
+									alt="Person monitoring a website at a desk"
+									width={640}
+									height={480}
+									className="h-80 w-full object-cover saturate-[0.7]"
+								/>
+							</div>
+						</div>
 					</div>
-					<ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-						{[
-							{
-								title: "Updates and security patches",
-								body: "Framework and dependencies kept current, applied before anything breaks. Critical patches get attention the same day.",
-							},
-							{
-								title: "Technical SEO health",
-								body: "Page speed, broken links, metadata, sitemap, structured data. Reviewed once a month with fixes shipped.",
-							},
-							{
-								title: "Uptime monitoring",
-								body: "I see problems before you do. Verify your site is up and running. If it goes down, I get an alert and start working immediately.",
-							},
-							{
-								title: "Compliance check",
-								body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
-							},
-							{
-								title: "Form and functional checks",
-								body: "Once a month I run a test submission through your contact form to make sure it's still working.",
-							},
-							{
-								title: "Content drift check",
-								body: "Once a quarter I scan for outdated information (last year's footer, holiday hours that don't apply anymore, broken external links) and flag what to update.",
-							},
-							{
-								title: "Domain, DNS, SSL, and backups",
-								body: "Quarterly health check, plus daily off-site backups recoverable to any point in the last 30 days.",
-							},
-							{
-								title: "One free text change per month",
-								body: "Opening hours, a price, a sentence on the homepage. Bigger changes go through Change requests.",
-							},
-						].map(({ title, body }) => (
-							<li key={title} className="flex flex-col gap-2">
-								<CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
-								<p className="font-medium text-foreground">{title}</p>
-								<p className="text-sm leading-relaxed text-muted-foreground">
-									{body}
-								</p>
-							</li>
-						))}
-					</ul>
+				</div>
+			</section>
+
+			{/* Change requests */}
+			<section
+				aria-labelledby="change-requests-heading"
+				className="bg-muted/50 px-4 py-24 sm:px-6 md:py-32"
+			>
+				<div className="mx-auto max-w-6xl">
+					<div className="grid items-center gap-12 lg:grid-cols-2">
+						{/* Left — image */}
+						<div className="overflow-hidden rounded-lg">
+							<Image
+								src="/simon-abrams-k_T9Zj3SE8k-unsplash.jpg"
+								alt="Person working at a desk making changes"
+								width={640}
+								height={480}
+								className="h-80 w-full object-cover saturate-[0.7]"
+							/>
+						</div>
+
+						{/* Right — text */}
+						<div>
+							<h2
+								id="change-requests-heading"
+							className="mb-4 scroll-mt-24 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+							>
+								Change requests
+							</h2>
+							<p className="mb-6 text-lg text-muted-foreground">
+								All changes you want, done by me.
+							</p>
+							<p className="leading-relaxed text-muted-foreground">
+								Whenever you want something changed, send me an email. Tell me
+								where the change should be and what you want it to say or show.
+								One smaller text change per month is included — think opening
+								hours, a price, or a sentence on the homepage. For anything
+								bigger, like a new page or a redesigned section, I send you a
+								quote before I start. Every change goes through me, which means
+								it is done properly and nothing breaks. The trade-off is that
+								you cannot make changes yourself and depend on me when something
+								needs updating. Most clients find that a fair deal.
+							</p>
+						</div>
+					</div>
 				</div>
 			</section>
 
@@ -394,14 +493,21 @@ export default function HomePage() {
 							Still on the fence?
 						</h2>
 						<p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-							A 30-minute call answers most of it. No obligation, no sales
-							pitch. Just a conversation about what your business needs.
+							Check the{" "}
+							<Link
+								href="/faq"
+								className="underline underline-offset-4 hover:text-foreground"
+							>
+								frequently asked questions
+							</Link>{" "}
+							— chances are your question is already answered. Or just ask it
+							directly and I will get back to you.
 						</p>
 						<Link
-							href="/contact"
+							href=""
 							className={cn(buttonVariants({ size: "lg" }), "gap-2")}
 						>
-							Book a free 30-minute video call
+							Ask a question
 							<ArrowRight className="h-4 w-4" />
 						</Link>
 					</div>

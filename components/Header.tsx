@@ -22,13 +22,20 @@ export default function Header() {
 				<div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
 					<Link href="/" aria-label="dehaas webservice — home">
 						<Image
-							src="/logo.svg"
+							src="/dehaas-logos/dehaas-logo-light.svg"
 							alt="dehaas webservice"
 							width={180}
 							height={56}
 							priority
-							className="h-9 w-auto"
-							style={{ colorScheme: "light" }}
+							className="h-16 w-auto dark:hidden"
+						/>
+						<Image
+							src="/dehaas-logos/dehaas-logo-dark.svg"
+							alt="dehaas webservice"
+							width={180}
+							height={56}
+							priority
+							className="hidden h-16 w-auto dark:block"
 						/>
 					</Link>
 					<HeaderNav navLinks={navLinks} />
