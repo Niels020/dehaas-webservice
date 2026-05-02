@@ -275,10 +275,10 @@ export default function HomePage() {
 								id="why-heading"
 								className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 							>
-							{whySection.heading}
-						</h2>
-						<p className="mb-8 text-lg text-muted-foreground">
-							{whySection.subheading}
+								{whySection.heading}
+							</h2>
+							<p className="mb-8 text-lg text-muted-foreground">
+								{whySection.subheading}
 							</p>
 							<div className="overflow-hidden rounded-lg">
 								<Image
@@ -414,23 +414,15 @@ export default function HomePage() {
 						<div>
 							<h2
 								id="change-requests-heading"
-							className="mb-4 scroll-mt-24 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
+								className="mb-4 scroll-mt-24 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 							>
-								Change requests
+								{changeRequestsSection.heading}
 							</h2>
 							<p className="mb-6 text-lg text-muted-foreground">
-								All changes you want, done by me.
+								{changeRequestsSection.subheading}
 							</p>
 							<p className="leading-relaxed text-muted-foreground">
-								Whenever you want something changed, send me an email. Tell me
-								where the change should be and what you want it to say or show.
-								One smaller text change per month is included — think opening
-								hours, a price, or a sentence on the homepage. For anything
-								bigger, like a new page or a redesigned section, I send you a
-								quote before I start. Every change goes through me, which means
-								it is done properly and nothing breaks. The trade-off is that
-								you cannot make changes yourself and depend on me when something
-								needs updating. Most clients find that a fair deal.
+								{changeRequestsSection.body}
 							</p>
 						</div>
 					</div>
@@ -448,10 +440,10 @@ export default function HomePage() {
 							id="faq-teaser-heading"
 							className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 						>
-							Common questions
+							{faqSection.heading}
 						</h2>
 						<p className="mb-8 text-lg text-muted-foreground">
-							Quick answers to things most people ask first.
+							{faqSection.subheading}
 						</p>
 						<Accordion className="w-full">
 							{faqTeaser.map(({ q, a }) => (
@@ -490,7 +482,7 @@ export default function HomePage() {
 							id="cta-heading"
 							className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
 						>
-							Still on the fence?
+							{ctaSection.heading}
 						</h2>
 						<p className="mb-8 text-lg leading-relaxed text-muted-foreground">
 							Check the{" "}
@@ -507,7 +499,7 @@ export default function HomePage() {
 							href=""
 							className={cn(buttonVariants({ size: "lg" }), "gap-2")}
 						>
-							Ask a question
+							{ctaSection.button}
 							<ArrowRight className="h-4 w-4" />
 						</Link>
 					</div>

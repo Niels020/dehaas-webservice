@@ -34,7 +34,10 @@ export default function Footer() {
 					</Link>
 
 					{/* Nav */}
-					<nav aria-label="Footer navigation" className="flex items-center gap-6">
+					<nav
+						aria-label="Footer navigation"
+						className="flex items-center gap-6"
+					>
 						{navLinks.map(({ href, label }) => (
 							<Link
 								key={href}
