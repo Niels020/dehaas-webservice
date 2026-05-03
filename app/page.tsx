@@ -1,7 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowDown, ArrowRight, CheckCircle2, CircleDot } from "lucide-react";
+import {
+	Activity,
+	ArrowDown,
+	ArrowRight,
+	CircleDot,
+	Eye,
+	FileCheck,
+	FileSearch,
+	HardDrive,
+	Search,
+	ShieldCheck,
+	Wrench,
+} from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +30,23 @@ export const metadata: Metadata = {
 		"A personal web service that builds, maintains, and updates websites for small businesses. No jargon, honest pricing, a real person on the other end.",
 };
 
+// Hero
+const hero = {
+	heading: "A site that works, and stays that way.",
+	subheadline: "Built right. Kept running. Updated when you need it.",
+	body1:
+		"Every business needs a modern website. AI tools let anyone design and deploy one, but web development is still complex, and keeping a site running still takes consistent attention.",
+	body2:
+		"The same tools made developers far more productive. Professional design and maintenance no longer need an enterprise budget. I handle it, and the site stops needing your attention. The changes you do want? Easy.",
+	cta: "Book a free 30-minute video call",
+};
+
+// Services
+const servicesSection = {
+	heading: "What I do",
+	subheading: "Three things, done well.",
+};
+
 const services = [
 	{
 		title: "Build",
@@ -27,23 +56,54 @@ const services = [
 	},
 	{
 		title: "Maintain",
-		body: "The most important, and most boring part. Once the site is live, I keep it healthy: updates, security patches, backups, monitoring, and basic SEO checks. All done quietly in the background. This is what every site needs and you don't want to do.",
+		body: "The most important, and most boring part. Once the site is live, I keep it healthy: updates, security patches, backups, monitoring, and basic SEO checks. All done quietly in the background. This is what every site needs and what you don't want to do yourself.",
 		pricing: "Low monthly fee, no hidden costs.",
 		href: "#maintenance-heading",
 	},
 	{
 		title: "Change",
-		body: "Want to update opening hours, increase a price, or change a sentence on the homepage? Smaller changes to the site are free. For anything more, like a new page, a swapped image, or a design tweak, send the request and I'll send a quote back before I start work.",
+		body: "Want to update opening hours, increase some prices, or change some sentences on the homepage? Smaller changes to the site are free once a month. For anything more, like a new page, a redesign or added features, send the request and I'll send a quote back before I start work.",
 		pricing: "Smaller changes included.",
 		href: "#change-requests-heading",
 	},
 ];
 
+// Why choose me
+const whySection = {
+	heading: "Why choose me",
+	subheading:
+		"Choosing how to set up your website is a big decision that can get very complex. I think it's mostly about trust. I give honest answers, work delivered as agreed, and clear prices with no surprises.",
+};
+
+const whyReasons = [
+	{
+		title: "One person, no nonsense",
+		body: "There is no sales team, no account manager, no confusing contract. You deal with me directly, from the first call to every question after launch. You get honest answers, a fixed price agreed up front, and someone who actually knows your site. Small business owner to small business owner.",
+	},
+	{
+		title: "Costs stay low",
+		body: "AI tools let me work faster and manage more without cutting corners. Recreating a site, applying routine changes, monitoring deployments: a lot of the time-consuming work is automated. That means the savings are passed on to you. Professional quality without the agency price tag.",
+	},
+	{
+		title: "I take it off your plate",
+		body: "Building a site is the easy part. Keeping it running, secure, and up to date is where most businesses quietly fall behind. I handle all of it (maintenance, updates, and changes), so you never have to think about it. Want to update your opening hours or swap out a photo? Send me a message and it's done.",
+	},
+];
+
+// Start the build
+const howItWorksSection = {
+	heading: "Start the build",
+	subheading:
+		"From first contact to live site in a handful of steps. There will be work for you involved too, but I aim to make the process as easy for you as possible.",
+	outro: "And you are live!",
+	outroSub: "From here the maintenance takes over.",
+};
+
 const steps = [
 	{
 		n: "01",
 		title: "Start",
-		body: "In the start you will be directed to a form. It will give me a good starting point and in this form you can also ask any questions you might have. After you simply schedule the call. I will get back to you to confirm and answer your questions.",
+		body: "First, you will be directed to a form. It gives me a good starting point and is also where you can ask any questions you might have. After that, simply schedule the call. I will get back to you to confirm and answer your questions.",
 	},
 	{
 		n: "02",
@@ -53,7 +113,7 @@ const steps = [
 	{
 		n: "03",
 		title: "Call",
-		body: "A free 30-minute video call. We will go though a design plan together where we will talk about your business needs. After the call, I send you a proposal with the final price and the design plan. When you sign off, I will go to work.",
+		body: "A free 30-minute video call. We will go through a design plan together where we will talk about your business needs. After the call, I send you a proposal with the final price and the design plan. When you sign off, I will go to work.",
 	},
 	{
 		n: "04",
@@ -61,6 +121,69 @@ const steps = [
 		body: "I handle the build. Within a week or two the site goes up on a preview link. You can browse it on your phone or laptop just like any real site. For the final touch ups, tell me what feels right and what doesn't and I will do the final changes.",
 	},
 ];
+
+// Full maintenance
+const maintenanceSection = {
+	heading: "Full maintenance",
+	subheading:
+		"This is where so many fail. Don't do this for a year and best case, your site looks outdated and is slow. Worst case, it gets hacked and takes your business down with it.",
+};
+
+const maintenanceChecks = [
+	{
+		icon: ShieldCheck,
+		title: "Updates and security patches",
+		body: "Framework and dependencies kept current, applied before anything breaks. Critical patches get attention the same day.",
+	},
+	{
+		icon: Activity,
+		title: "Technical SEO health",
+		body: "Page speed, broken links, metadata, sitemap, structured data. Reviewed once a month with fixes shipped.",
+	},
+	{
+		icon: Eye,
+		title: "Uptime monitoring",
+		body: "I see problems before you do. Continuous checks confirm the site is up and running. If it goes down, I get an alert and start working immediately.",
+	},
+	{
+		icon: FileCheck,
+		title: "Compliance check",
+		body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
+	},
+	{
+		icon: Search,
+		title: "Metrics tracking",
+		body: "Visitor numbers, popular pages, traffic sources. Privacy-friendly analytics with no cookie banner, reviewed monthly. I send a short summary and flag anything worth knowing.",
+	},
+	{
+		icon: Wrench,
+		title: "Form and functional checks",
+		body: "Once a month I run a test submission through your contact form to make sure it's still working.",
+	},
+	{
+		icon: FileSearch,
+		title: "Content drift check",
+		body: "Once a quarter I scan for outdated information (last year's footer, holiday hours that don't apply anymore, broken external links) and flag what to update.",
+	},
+	{
+		icon: HardDrive,
+		title: "Domain, DNS, SSL, and backups",
+		body: "Quarterly health check, plus daily off-site backups recoverable to any point in the last 30 days.",
+	},
+];
+
+// Change requests
+const changeRequestsSection = {
+	heading: "Change requests",
+	subheading: "All changes you want, done by me.",
+	body: "Whenever you want something changed, send me an email. Tell me where the change should be and what you want it to say or show. One smaller change per month is included: think opening hours, a price, or a some sentences on the homepage. For anything bigger, like a new page or a redesigned section, I send you a quote before I start. Every change goes through me, which means it is done properly and nothing breaks. The trade-off is that you cannot make changes yourself and depend on me when something needs updating.",
+};
+
+// Common questions
+const faqSection = {
+	heading: "Common questions",
+	subheading: "Quick answers to things most people ask first.",
+};
 
 const faqTeaser = [
 	{
@@ -77,102 +200,7 @@ const faqTeaser = [
 	},
 ];
 
-const hero = {
-	heading: "A site that works, and stays that way.",
-	subheadline: "Built right. Kept running. Updated when you need it.",
-	body1:
-		"Every business needs a modern website. AI tools let anyone design and deploy one, but web development is still complex, and keeping a site running still takes consistent attention.",
-	body2:
-		"The same tools made developers far more productive. Professional design and maintenance no longer needs an enterprise budget. I handle it, and the site stops needing your attention. The changes you do want? Easy.",
-	cta: "Book a free 30-minute video call",
-};
-
-const servicesSection = {
-	heading: "What I do",
-	subheading: "Three things, done well.",
-};
-
-const whySection = {
-	heading: "Why choose me",
-	subheading:
-		"Choosing how to set up your website is a big decision that can get very complex. I think it's mostly about trust. You want honest answers, someone that delivers on their agreed services, and does not hide additional costs.",
-};
-
-const whyReasons = [
-	{
-		title: "One person, no nonsense",
-		body: "There is no sales team, no account manager, no confusing contract. You deal with me directly, from the first call to every question after launch. You get honest answers, a fixed price agreed up front, and someone who actually knows your site. Small business owner to small business owner.",
-	},
-	{
-		title: "Costs stay low",
-		body: "AI tools let me work faster and manage more without cutting corners. Recreating a site, applying routine changes, monitoring deployments — a lot of the time-consuming work is automated. That means the savings are passed on to you. Professional quality without the agency price tag.",
-	},
-	{
-		title: "I take it off your plate",
-		body: "Building a site is the easy part. Keeping it running, secure, and up to date is where most businesses quietly fall behind. I handle all of it — maintenance, updates, and changes — so you never have to think about it. Want to update your opening hours or swap out a photo? Send me a message and it's done.",
-	},
-];
-
-const howItWorksSection = {
-	heading: "Start the build",
-	subheading:
-		"From first contact to live site in a handful of steps. There will be work for you involved too, but I aim to make the process as easy for you as possible.",
-	outro: "And you are live!",
-	outroSub: "From here the maintenance takes over.",
-};
-
-const maintenanceSection = {
-	heading: "Full maintenance",
-	subheading:
-		"This is where so many fail. Don't do this for a year and best scenario, your site looks outdated and is slow. Worst case, it gets hacked and takes your business down with it.",
-};
-
-const maintenanceChecks = [
-	{
-		title: "Updates and security patches",
-		body: "Framework and dependencies kept current, applied before anything breaks. Critical patches get attention the same day.",
-	},
-	{
-		title: "Technical SEO health",
-		body: "Page speed, broken links, metadata, sitemap, structured data. Reviewed once a month with fixes shipped.",
-	},
-	{
-		title: "Uptime monitoring",
-		body: "I see problems before you do. Verify your site is up and running. If it goes down, I get an alert and start working immediately.",
-	},
-	{
-		title: "Compliance check",
-		body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
-	},
-	{
-		title: "Form and functional checks",
-		body: "Once a month I run a test submission through your contact form to make sure it's still working.",
-	},
-	{
-		title: "Content drift check",
-		body: "Once a quarter I scan for outdated information (last year's footer, holiday hours that don't apply anymore, broken external links) and flag what to update.",
-	},
-	{
-		title: "Domain, DNS, SSL, and backups",
-		body: "Quarterly health check, plus daily off-site backups recoverable to any point in the last 30 days.",
-	},
-	{
-		title: "One free text change per month",
-		body: "Opening hours, a price, a sentence on the homepage. Bigger changes go through Change requests.",
-	},
-];
-
-const changeRequestsSection = {
-	heading: "Change requests",
-	subheading: "All changes you want, done by me.",
-	body: "Whenever you want something changed, send me an email. Tell me where the change should be and what you want it to say or show. One smaller text change per month is included — think opening hours, a price, or a sentence on the homepage. For anything bigger, like a new page or a redesigned section, I send you a quote before I start. Every change goes through me, which means it is done properly and nothing breaks. The trade-off is that you cannot make changes yourself and depend on me when something needs updating. Most clients find that a fair deal.",
-};
-
-const faqSection = {
-	heading: "Common questions",
-	subheading: "Quick answers to things most people ask first.",
-};
-
+// CTA
 const ctaSection = {
 	heading: "Still on the fence?",
 	button: "Ask a question",
@@ -354,9 +382,9 @@ export default function HomePage() {
 					<div className="grid items-start gap-32 lg:grid-cols-[2fr_3fr]">
 						{/* Left — 8 checks */}
 						<ul className="flex flex-col divide-y divide-border">
-							{maintenanceChecks.map(({ title, body }) => (
+							{maintenanceChecks.map(({ icon: Icon, title, body }) => (
 								<li key={title} className="flex gap-4 py-6">
-									<CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+									<Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
 									<div>
 										<p className="font-medium text-foreground">{title}</p>
 										<p className="mt-1 text-sm leading-relaxed text-muted-foreground">
