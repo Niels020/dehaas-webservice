@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/accordion";
 
 export const metadata: Metadata = {
-	title: "dehaas webservice — websites for small businesses",
+	title: "dehaas webservice: websites for small businesses",
 	description:
 		"A personal web service that builds, maintains, and updates websites for small businesses. No jargon, honest pricing, a real person on the other end.",
 };
@@ -72,7 +72,7 @@ const services = [
 const whySection = {
 	heading: "Why choose me",
 	subheading:
-		"Choosing how to set up your website is a big decision that can get very complex. I think it's mostly about trust. I give honest answers, work delivered as agreed, and clear prices with no surprises.",
+		"Choosing how to set up your website is a big decision that can get very complex. I believe it's mostly about trust. From me you get honest answers, work delivered as agreed, and clear prices with no surprises.",
 };
 
 const whyReasons = [
@@ -146,14 +146,14 @@ const maintenanceChecks = [
 		body: "I see problems before you do. Continuous checks confirm the site is up and running. If it goes down, I get an alert and start working immediately.",
 	},
 	{
-		icon: FileCheck,
-		title: "Compliance check",
-		body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
-	},
-	{
 		icon: Search,
 		title: "Metrics tracking",
 		body: "Visitor numbers, popular pages, traffic sources. Privacy-friendly analytics with no cookie banner, reviewed monthly. I send a short summary and flag anything worth knowing.",
+	},
+	{
+		icon: FileCheck,
+		title: "Compliance check",
+		body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
 	},
 	{
 		icon: Wrench,
@@ -176,7 +176,7 @@ const maintenanceChecks = [
 const changeRequestsSection = {
 	heading: "Change requests",
 	subheading: "All changes you want, done by me.",
-	body: "Whenever you want something changed, send me an email. Tell me where the change should be and what you want it to say or show. One smaller change per month is included: think opening hours, a price, or a some sentences on the homepage. For anything bigger, like a new page or a redesigned section, I send you a quote before I start. Every change goes through me, which means it is done properly and nothing breaks. The trade-off is that you cannot make changes yourself and depend on me when something needs updating.",
+	body: "Whenever you want something changed, send me an email. Tell me where the change should be and what you want it to say or show. One smaller change per month is included: think opening hours, updated prices, or some sentences on the homepage. For anything bigger, like a new page or a redesigned section, I send you a quote before I start. Every change goes through me, which means it is done properly and nothing breaks. The trade-off is that you cannot make changes yourself and depend on me when something needs updating.",
 };
 
 // Common questions
