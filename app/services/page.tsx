@@ -38,6 +38,7 @@ const buildBaseline = [
 
 const buildPricing = [
 	{ label: "1-page site", price: "€275" },
+	{ label: "2-page site", price: "€360" },
 	{ label: "3-page site", price: "€440" },
 	{ label: "Each additional page beyond that", price: "€100" },
 ];
@@ -47,7 +48,7 @@ const functionalitiesSection = {
 	subheading:
 		"Features you can add to a build, and the ones that are not part of the standard offer.",
 	intro:
-		"Most small business sites only need a handful of these. Each add-on adds somewhere between €30 and €100 to the build, depending on scope. I quote the exact amount before I start.",
+		"Most small business sites only need a handful of these. Each add-on adds somewhere between €30 and €180 to the build, depending on scope. I quote the exact amount before I start.",
 };
 
 const addOns = [
@@ -63,13 +64,16 @@ const addOns = [
 	"Video embeds (YouTube, Vimeo)",
 	"Multi-section homepage with anchor navigation",
 	"Testimonials section",
+	"Dutch and English bilingual site (AI-translated; Dutch and English only)",
+	"Dark mode",
 ];
 
 const notIncluded = [
 	"Custom backends, databases, or user accounts",
 	"E-commerce platforms beyond a single Stripe checkout (no shopping carts, no inventory)",
-	"Multi-language sites",
-	"Sites over ~10 pages or with ~10,000+ monthly visitors",
+	"More than 2 languages — Dutch and English bilingual is available as an add-on; other languages are not offered",
+	"Sites over 7 pages",
+	"Sites with ~10,000+ monthly visitors",
 	"Email hosting (info@yourdomain.nl etc.); use a separate provider through your domain registrar or Google Workspace",
 	"Industry-specific compliance (medical records, finance, accessibility WCAG AAA, custom data processing agreements)",
 	"Search ranking guarantees (technical SEO yes, ranking promises never)",
@@ -79,41 +83,49 @@ const notIncluded = [
 const maintenanceSection = {
 	heading: "Maintenance specifics",
 	subheading:
-		"This is where so many fail. Don't do this for a year and best case, your site looks outdated and is slow. Worst case, it gets hacked and takes your business down with it.",
+		"Eight things I do on your site, every month, quarter, or year — without you having to ask.",
 };
 
 const maintenanceItems = [
 	{
 		title: "Updates and security patches",
-		body: "Framework and dependencies kept current, applied before anything breaks. Critical patches get attention the same day.",
+		cadence: "Ongoing",
+		body: "Every framework and library your site depends on ships new versions regularly. Some are improvements; some fix security vulnerabilities. Left unpatched, a site becomes an easy target. I use automated tooling that watches every dependency on your repo and flags new versions the moment they're published. I review each one, test it on a private preview deployment, and ship it when it passes. Critical security patches get attention the same day.",
 	},
 	{
 		title: "Technical SEO health",
-		body: "Page speed, broken links, metadata, sitemap, structured data. Reviewed once a month with fixes shipped.",
+		cadence: "Monthly",
+		body: "Search engines rank sites partly on technical quality: how fast the pages load, whether the metadata is complete, whether your images are sized properly, whether links actually go somewhere, and whether the sitemap is accurate. This kind of thing drifts gradually as content gets added and tools update. I run a full audit once a month using the same scoring tool Google uses. Anything that scores below par gets fixed and shipped.",
 	},
 	{
 		title: "Uptime monitoring",
-		body: "I see problems before you do. Continuous checks confirm the site is up and running. If it goes down, I get an alert and start working immediately.",
+		cadence: "Continuous",
+		body: "Your site can go down for many reasons — a bad deploy, a hosting outage, a DNS issue, an expired certificate. UptimeRobot checks your domain around the clock and sends an alert to my phone the moment it stops responding. I'm usually aware before you are, and working on it before the first complaint comes in. There's no extra charge for this; it's part of the subscription.",
 	},
 	{
 		title: "Metrics tracking",
-		body: "Visitor numbers, popular pages, traffic sources. Privacy-friendly analytics with no cookie banner, reviewed monthly. I send a short summary and flag anything worth knowing.",
+		cadence: "Monthly",
+		body: "Knowing whether visitors are actually coming, which pages they land on, and where they come from is basic business information. Plausible analytics runs in the background on every site I maintain. It's privacy-friendly, GDPR-compliant, and needs no cookie banner. Once a month I pull the numbers, write a short summary, and flag anything worth your attention — a traffic drop, an unusually popular page, or a source of visitors you weren't expecting.",
 	},
 	{
 		title: "Compliance check",
-		body: "Once a year I review the cookie banner, privacy policy, and consent flow against current rules.",
+		cadence: "Yearly",
+		body: "GDPR requirements evolve, and so do the rules around cookie consent and privacy policy wording. Once a year I run through your site's cookie banner, privacy notice, and consent flows against current rules. If something needs updating, I draft the change and send it to you to review before it goes live.",
 	},
 	{
 		title: "Form and functional checks",
-		body: "Once a month I run a test submission through your contact form to make sure it's still working.",
+		cadence: "Monthly",
+		body: "Contact forms break silently. A change to a mail server, a spam filter adjustment, or an expired key can mean messages from visitors disappear without anyone noticing. Once a month I send a test submission through your contact form and verify it arrives in your inbox. If it doesn't, I trace where it broke and fix it.",
 	},
 	{
 		title: "Content drift check",
-		body: "Once a quarter I scan for outdated information (last year's footer, holiday hours that don't apply anymore, broken external links) and flag what to update.",
+		cadence: "Quarterly",
+		body: "Static content goes stale. Holiday hours from last Christmas still showing in December. A price that changed six months ago. A link to a supplier who closed. Once a quarter I scan the live site for content that no longer looks current: copyright year, opening hours, prices, external links. I flag what I find and you decide what to update.",
 	},
 	{
 		title: "Domain, DNS, SSL, and backups",
-		body: "Quarterly health check, plus daily off-site backups recoverable to any point in the last 30 days.",
+		cadence: "Ongoing",
+		body: "Four pieces of infrastructure that need to stay healthy or your site stops working. I track your domain renewal date and flag it before it lapses. SSL is provisioned automatically through Vercel and renews without you lifting a finger. DNS is reviewed quarterly to confirm nothing has drifted. Backups run on a schedule so the full site can be recovered to any point in the last 30 days.",
 	},
 ];
 
@@ -186,6 +198,10 @@ const finePrintItems = [
 	{
 		title: "Hosting reliability",
 		body: "Hosting reliability follows Vercel's SLA. I don't offer a separate uptime guarantee on top of that.",
+	},
+	{
+		title: "Traffic ceiling",
+		body: "Basic is for sites up to 10,000 monthly visitors. Above that, Basic no longer applies and we move to a custom maintenance arrangement.",
 	},
 ];
 
@@ -294,15 +310,16 @@ const pricingRows = [
 		notes:
 			"Includes responsive design, SEO basics, SSL, hosting setup, custom domain.",
 	},
+	{ item: "2-page build", price: "€360", notes: "Same baseline, more pages." },
 	{ item: "3-page build", price: "€440", notes: "Same baseline, more pages." },
 	{
 		item: "Each additional page beyond 3",
 		price: "€100",
-		notes: "Up to 10 pages total.",
+		notes: "Up to 7 pages total.",
 	},
 	{
 		item: "Functionality add-ons",
-		price: "€30 – €100 each",
+		price: "€30 – €180 each",
 		notes: "Quoted before work starts.",
 	},
 	{
@@ -500,11 +517,19 @@ export default function ServicesPage() {
 					<p className="mb-12 max-w-2xl text-lg text-muted-foreground">
 						{maintenanceSection.subheading}
 					</p>
-					<div className="grid gap-8 sm:grid-cols-2">
-						{maintenanceItems.map(({ title, body }) => (
-							<div key={title}>
-								<p className="font-semibold text-foreground">{title}</p>
-								<p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+					<div className="flex flex-col divide-y divide-border">
+						{maintenanceItems.map(({ title, cadence, body }) => (
+							<div
+								key={title}
+								className="grid gap-4 py-8 sm:grid-cols-[1fr_2fr]"
+							>
+								<div>
+									<p className="font-semibold text-foreground">{title}</p>
+									<p className="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground/60">
+										{cadence}
+									</p>
+								</div>
+								<p className="text-base leading-relaxed text-muted-foreground">
 									{body}
 								</p>
 							</div>
