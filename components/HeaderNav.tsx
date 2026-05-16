@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
 import {
 	Sheet,
 	SheetContent,
@@ -39,17 +38,13 @@ export default function HeaderNav({ navLinks }: { navLinks: NavLink[] }) {
 						{label}
 					</Link>
 				))}
-				<Link href="/contact" className={cn(buttonVariants({ size: "sm" }))}>
-					Book a call
-				</Link>
 			</nav>
 
 			{/* Mobile nav */}
 			<Sheet open={open} onOpenChange={setOpen}>
 				<SheetTrigger
 					className={cn(
-						buttonVariants({ variant: "ghost", size: "icon" }),
-						"md:hidden",
+						"inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground md:hidden",
 					)}
 					aria-label="Open menu"
 				>
@@ -76,13 +71,6 @@ export default function HeaderNav({ navLinks }: { navLinks: NavLink[] }) {
 								{label}
 							</Link>
 						))}
-						<Link
-							href="/contact"
-							onClick={() => setOpen(false)}
-							className={cn(buttonVariants(), "mt-2 w-full justify-center")}
-						>
-							Book a call
-						</Link>
 					</nav>
 				</SheetContent>
 			</Sheet>

@@ -5,7 +5,7 @@ import CallRequestForm from "@/components/CallRequestForm";
 export const metadata: Metadata = {
 	title: "Book a call",
 	description:
-		"Book a free 30-minute video call. We talk through what your business needs, and I follow up with a written proposal.",
+		"Book a free first consult. We talk through what your business needs, and I follow up with a written proposal.",
 };
 
 export default function ContactPage() {

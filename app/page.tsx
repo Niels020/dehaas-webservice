@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
 	Activity,
+	ArrowBigRight,
 	ArrowDown,
 	ArrowRight,
 	CircleDot,
@@ -33,12 +34,12 @@ export const metadata: Metadata = {
 // Hero
 const hero = {
 	heading: "A site that works, and stays that way.",
-	subheadline: "Built right. Kept running. Updated when you need it.",
+	subheadline: "Built right Kept running Updated when you need it",
 	body1:
 		"Every business needs a modern website. AI tools let anyone design and deploy one, but web development is still complex, and keeping a site running still takes consistent attention.",
 	body2:
 		"The same tools made developers far more productive. Professional design and maintenance no longer need an enterprise budget. I handle it, and the site stops needing your attention. The changes you do want? Easy.",
-	cta: "Book a free 30-minute video call",
+	cta: "Book a free first consult",
 };
 
 // Services
@@ -113,7 +114,7 @@ const steps = [
 	{
 		n: "03",
 		title: "Call",
-		body: "A free 30-minute video call. We will go through a design plan together where we will talk about your business needs. After the call, I send you a proposal with the final price and the design plan. When you sign off, I will go to work.",
+		body: "A free first consult. We will go through a design plan together where we will talk about your business needs. After the call, I send you a proposal with the final price and the design plan. When you sign off, I will go to work.",
 	},
 	{
 		n: "04",
@@ -222,8 +223,12 @@ export default function HomePage() {
 						>
 							{hero.heading}
 						</h1>
-						<p className="mt-6 text-xl text-muted-foreground sm:text-2xl">
-							{hero.subheadline}
+						<p className="mt-6 flex flex-wrap items-center gap-2 text-xl text-muted-foreground sm:text-2xl">
+							<span>Built right</span>
+							<ArrowBigRight className="h-5 w-5 shrink-0 text-primary" />
+							<span>Kept running</span>
+							<ArrowBigRight className="h-5 w-5 shrink-0 text-primary" />
+							<span>Updated when you need it</span>
 						</p>
 						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
 							{hero.body1}
@@ -231,12 +236,22 @@ export default function HomePage() {
 							<br />
 							{hero.body2}
 						</p>
-						<div className="mt-8">
+						<div className="mt-8 flex flex-wrap gap-3">
 							<Link
 								href="/contact"
 								className={cn(buttonVariants({ size: "lg" }), "gap-2")}
 							>
 								{hero.cta}
+								<ArrowRight className="h-4 w-4" />
+							</Link>
+							<Link
+								href="/services#pricing-heading"
+								className={cn(
+									buttonVariants({ variant: "outline", size: "lg" }),
+									"gap-2",
+								)}
+							>
+								Go directly to prices
 								<ArrowRight className="h-4 w-4" />
 							</Link>
 						</div>
@@ -261,7 +276,10 @@ export default function HomePage() {
 					</p>
 					<div className="grid gap-6 md:grid-cols-3">
 						{services.map(({ title, body, pricing, href }) => (
-							<Card key={title} className="flex flex-col border-border">
+							<Card
+								key={title}
+								className="flex flex-col border-border transition-transform duration-200 hover:-translate-y-1 hover:shadow-md"
+							>
 								<CardHeader>
 									<CardTitle className="text-lg font-semibold">
 										{title}

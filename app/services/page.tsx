@@ -17,7 +17,7 @@ const hero = {
 	subheadline:
 		"Specs, scope, tech, and pricing. All in one place, no fine print.",
 	body: "This is the full picture of working with me. What is delivered with a build, what's possible to add, the tech behind your site, and what each part costs. If something is not on this page, it is not part of the default offer. Anything you want beyond it, I quote separately before I start.",
-	cta: "Book a free 30-minute video call",
+	cta: "Book a free first consult",
 };
 
 const buildSection = {
@@ -336,8 +336,8 @@ const pricingRows = [
 
 const ctaSection = {
 	heading: "Ready to talk specifics?",
-	body: "A free 30-minute video call is the next step. Bring questions, I bring honest answers.",
-	button: "Book a free 30-minute video call",
+	body: "A free first consult is the next step. Bring questions, I bring honest answers.",
+	button: "Book a free first consult",
 };
 
 // ─── Page ─────────────────────────────────────────────────────────────────────

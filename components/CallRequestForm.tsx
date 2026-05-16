@@ -584,7 +584,7 @@ export default function CallRequestForm() {
 				<div className="flex flex-col gap-5">
 					<div>
 						<label htmlFor="preferred-time" className={lc}>
-							Preferred day/time for a 30-minute video call
+							Preferred day/time for a first consult
 						</label>
 						<input
 							id="preferred-time"

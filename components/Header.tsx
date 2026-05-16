@@ -3,6 +3,7 @@ import Link from "next/link";
 import HeaderNav from "@/components/HeaderNav";
 
 const navLinks = [
+	{ href: "/", label: "Home" },
 	{ href: "/services", label: "Services" },
 	{ href: "/faq", label: "FAQ" },
 	{ href: "/contact", label: "Contact" },
