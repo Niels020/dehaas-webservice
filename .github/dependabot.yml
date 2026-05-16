@@ -1,0 +1,41 @@
+# Dependabot configuration — automatic dependency update PRs
+# Docs: https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
+#
+# What this does:
+# - Checks npm packages weekly (Monday 07:00 CET) for new versions
+# - Checks GitHub Actions monthly for new versions
+# - Groups all minor + patch updates into a single PR (fewer PRs to review)
+# - Major versions get their own PR so you can review breaking changes individually
+
+version: 2
+
+updates:
+  # npm dependencies (package.json + package-lock.json)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"         # UTC — 07:00 or 08:00 CET depending on DST
+      timezone: "Europe/Amsterdam"
+    groups:
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 10
+
+  # GitHub Actions versions (keeps your CI workflows up to date)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"

@@ -1,0 +1,48 @@
+# Lighthouse CI — performance, accessibility, best practices, SEO scoring
+#
+# Runs on:
+# - Every PR (catches regressions before merge)
+# - Weekly Monday 06:00 UTC (baseline tracking)
+# - Manual trigger (workflow_dispatch)
+#
+# Scores are checked against thresholds in .lighthouserc.json.
+# Results are uploaded as a GitHub Actions artifact (30-day retention)
+# for month-over-month comparison.
+
+name: Lighthouse CI
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1"   # Monday 06:00 UTC (07:00 or 08:00 CET)
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    name: Lighthouse audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Lighthouse CI
+        run: npx --yes @lhci/cli@latest autorun
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results-${{ github.sha }}
+          path: .lighthouseci/
+          retention-days: 30

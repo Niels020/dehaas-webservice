@@ -63,7 +63,15 @@ export default function Footer() {
 
 				<div className="flex flex-col gap-1 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
 					<p>&copy; {year} dehaas webservice &mdash; KvK: [placeholder]</p>
-					<p>Handmade in the Netherlands</p>
+					<div className="flex items-center gap-4">
+						<Link
+							href="/privacy"
+							className="transition-colors hover:text-primary"
+						>
+							Privacy
+						</Link>
+						<p>Handmade in the Netherlands</p>
+					</div>
 				</div>
 			</div>
 		</footer>

@@ -1,0 +1,50 @@
+# Off-platform backup — mirrors the repo to a separate Git remote.
+#
+# Runs quarterly (1st of Jan, Apr, Jul, Oct at 05:00 UTC) and on manual trigger.
+#
+# Setup required:
+# 1. Create a mirror repo on a second platform (e.g. GitLab, Bitbucket, or a
+#    self-hosted Gitea). It should be a bare/mirror repo.
+# 2. Generate a deploy key or access token for the mirror.
+# 3. Add it as a repository secret named BACKUP_REMOTE_URL, formatted as:
+#    https://<token>@gitlab.com/your-user/dehaas-webservice-mirror.git
+#    or for SSH: git@gitlab.com:your-user/dehaas-webservice-mirror.git
+#    (if SSH, also add the private key as BACKUP_SSH_KEY secret)
+#
+# Until the mirror is set up, this workflow will skip gracefully.
+
+name: Quarterly backup
+
+on:
+  schedule:
+    - cron: "0 5 1 1,4,7,10 *"  # 1st of Jan, Apr, Jul, Oct at 05:00 UTC
+  workflow_dispatch:
+
+jobs:
+  mirror:
+    name: Mirror to backup remote
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if backup is configured
+        id: check
+        run: |
+          if [ -z "${{ secrets.BACKUP_REMOTE_URL }}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "⚠️ BACKUP_REMOTE_URL secret not set — skipping backup."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout full history
+        if: steps.check.outputs.configured == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full clone, not shallow — needed for mirror push
+
+      - name: Push mirror
+        if: steps.check.outputs.configured == 'true'
+        run: |
+          git remote add backup "${{ secrets.BACKUP_REMOTE_URL }}"
+          git push backup --mirror
+          echo "✅ Backup pushed successfully."

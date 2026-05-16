@@ -1,0 +1,65 @@
+# CI — runs on every PR and every push to main
+#
+# What this does:
+# - Installs dependencies with `npm ci` (clean install from lockfile, not `npm install`)
+# - Runs the linter
+# - Runs a production build
+# - Runs Playwright smoke + form tests against the built site
+#
+# Why it matters:
+# - Catches broken code BEFORE it reaches production
+# - The "build" job name becomes a required status check for branch protection
+# - Dependabot auto-merge waits for this to pass before merging
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  # Cancel in-progress runs for the same PR (saves Actions minutes)
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      # npm ci = clean install from lockfile. Faster and more reliable than npm install.
+      # If the lockfile is out of sync with package.json, this fails — which is what you want.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.sha }}
+          path: playwright-report/
+          retention-days: 14

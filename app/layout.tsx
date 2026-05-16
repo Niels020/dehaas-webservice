@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UnderConstruction from "@/components/UnderConstruction";
+import { CookieBanner } from "@/components/cookie-banner";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -44,6 +46,17 @@ export default function RootLayout({
 			lang="nl"
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
 		>
+			<head>
+				{/* Plausible analytics — privacy-friendly, no cookies, no banner needed.
+				    Only loads in production (Plausible ignores localhost automatically,
+				    but next/script strategy="afterInteractive" keeps it out of SSR). */}
+				<Script
+					defer
+					data-domain="dehaaswebservice.nl"
+					src="https://plausible.io/js/script.js"
+					strategy="afterInteractive"
+				/>
+			</head>
 			<body className="flex min-h-full flex-col">
 				<UnderConstruction />
 				<Header />
@@ -51,6 +64,7 @@ export default function RootLayout({
 					{children}
 				</main>
 				<Footer />
+				<CookieBanner />
 			</body>
 		</html>
 	);
