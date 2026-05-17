@@ -15,8 +15,8 @@ export const metadata: Metadata = {
 const hero = {
 	heading: "What you get, and what it costs.",
 	subheadline:
-		"Specs, scope, tech, and pricing. All in one place, no fine print.",
-	body: "This is the full picture of working with me. What is delivered with a build, what's possible to add, the tech behind your site, and what each part costs. If something is not on this page, it is not part of the default offer. Anything you want beyond it, I quote separately before I start.",
+		"Specs, scope, tech, pricing, and the fine print. All in one place.",
+	body: "I have tried to get all the information you might need on this page. If something is still unclear, or if you have a specific question, try the FAQ page or just contact me directly.",
 	cta: "Book a free first consult",
 };
 
@@ -337,7 +337,6 @@ const pricingRows = [
 const ctaSection = {
 	heading: "Ready to talk specifics?",
 	body: "A free first consult is the next step. Bring questions, I bring honest answers.",
-	button: "Book a free first consult",
 };
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -364,12 +363,22 @@ export default function ServicesPage() {
 						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
 							{hero.body}
 						</p>
-						<div className="mt-8">
+						<div className="mt-8 flex flex-wrap gap-3">
 							<Link
-								href="/contact"
+								href="/faq"
+								className={cn(
+									buttonVariants({ variant: "outline", size: "lg" }),
+									"gap-2",
+								)}
+							>
+								Go to FAQ
+								<ArrowRight className="h-4 w-4" />
+							</Link>
+							<Link
+								href="/contact#quick-question"
 								className={cn(buttonVariants({ size: "lg" }), "gap-2")}
 							>
-								{hero.cta}
+								Ask a question
 								<ArrowRight className="h-4 w-4" />
 							</Link>
 						</div>
@@ -749,7 +758,7 @@ export default function ServicesPage() {
 							href="/contact"
 							className={cn(buttonVariants({ size: "lg" }), "gap-2")}
 						>
-							{ctaSection.button}
+							Book a free first consult
 							<ArrowRight className="h-4 w-4" />
 						</Link>
 					</div>

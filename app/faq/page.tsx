@@ -291,33 +291,6 @@ export default function FAQPage() {
 					</div>
 				</div>
 			</section>
-
-			{/* CTA band */}
-			<section
-				aria-labelledby="faq-cta-heading"
-				className="bg-background px-4 py-24 sm:px-6 md:py-32"
-			>
-				<div className="mx-auto max-w-6xl">
-					<div className="max-w-xl">
-						<h2
-							id="faq-cta-heading"
-							className="mb-4 text-3xl font-semibold tracking-[-0.01em] text-foreground sm:text-4xl"
-						>
-							Still have questions?
-						</h2>
-						<p className="mb-8 text-lg text-muted-foreground">
-							Book a 30-minute call and ask them directly.
-						</p>
-						<Link
-							href="/contact"
-							className={cn(buttonVariants({ size: "lg" }), "gap-2")}
-						>
-							Book a free call
-							<ArrowRight className="h-4 w-4" />
-						</Link>
-					</div>
-				</div>
-			</section>
 		</>
 	);
 }

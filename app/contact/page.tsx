@@ -70,7 +70,7 @@ export default function ContactPage() {
 					</h2>
 					<p className="mb-8 text-muted-foreground">
 						Not ready to book a call yet? Send me a message and I will get back
-						to you within one working day.
+						to you.
 					</p>
 
 					<form

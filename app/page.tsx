@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
 	Activity,
-	ArrowBigRight,
 	ArrowDown,
 	ArrowRight,
 	CircleDot,
@@ -33,19 +32,20 @@ export const metadata: Metadata = {
 
 // Hero
 const hero = {
-	heading: "A site that works, and stays that way.",
-	subheadline: "Built right Kept running Updated when you need it",
+	heading: "Built together, maintained by me.",
+	subheadline: "A website you never have to worry about.",
 	body1:
-		"Every business needs a modern website. AI tools let anyone design and deploy one, but web development is still complex, and keeping a site running still takes consistent attention.",
+		"I build websites for small businesses, and I have built a solid infrastructure to keep them running. Automated updates, uptime monitoring, security patching, backups. Most websites quietly fall behind on this. Updates pile up, security gets ignored, and before long the damage is done.",
 	body2:
-		"The same tools made developers far more productive. Professional design and maintenance no longer need an enterprise budget. I handle it, and the site stops needing your attention. The changes you do want? Easy.",
+		"I make sure it never gets to that point. You bring your business, we design the site together, and from there I take care of everything.",
 	cta: "Book a free first consult",
 };
 
 // Services
 const servicesSection = {
-	heading: "What I do",
-	subheading: "Three things, done well.",
+	heading: "The service, in short.",
+	subheading:
+		"Everything a website needs, in three steps. From the first design to a million visitors.",
 };
 
 const services = [
@@ -189,15 +189,15 @@ const faqSection = {
 const faqTeaser = [
 	{
 		q: "How much does a build cost?",
-		a: "Most websites start at €1,200. The exact price depends on the number of pages and whether you need any custom features. I give you a fixed price before work starts, so there are no surprises.",
+		a: "Websites start at €275. The exact price depends on the number of pages and whether you need any custom features. I give you a fixed price before work starts, so there are no surprises.",
 	},
 	{
 		q: "How long does a build take?",
-		a: "Usually two to four weeks from the kick-off call to launch. It depends on how quickly we can align on the design and how fast you can supply any content or photos.",
+		a: "Usually two weeks from the kick-off call to launch. It depends on how quickly we can align on the design and how fast you can supply any content or photos.",
 	},
 	{
 		q: "What is included in the monthly maintenance fee?",
-		a: "Hosting, backups, security updates, and smaller content changes. You pay €75 per month and can cancel at any time.",
+		a: "Hosting, backups, security updates, and smaller content changes. You pay €9,95 per month and can cancel at any time.",
 	},
 ];
 
@@ -223,15 +223,15 @@ export default function HomePage() {
 						>
 							{hero.heading}
 						</h1>
-						<p className="mt-6 flex flex-wrap items-center gap-2 text-xl text-muted-foreground sm:text-2xl">
-							<span>Built right</span>
-							<ArrowBigRight className="h-5 w-5 shrink-0 text-primary" />
-							<span>Kept running</span>
-							<ArrowBigRight className="h-5 w-5 shrink-0 text-primary" />
-							<span>Updated when you need it</span>
+						<p className="mt-6 text-xl text-muted-foreground sm:text-2xl">
+							{hero.subheadline}
 						</p>
 						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-							{hero.body1}
+							I build websites for small businesses, and I have built a solid
+							infrastructure to keep them running. Automated updates, uptime
+							monitoring, security patching, backups. Most websites quietly fall
+							behind on this. Updates pile up, security gets ignored, and before
+							long the damage is done.
 							<br />
 							<br />
 							{hero.body2}
@@ -328,7 +328,7 @@ export default function HomePage() {
 							</p>
 							<div className="overflow-hidden rounded-lg">
 								<Image
-									src="/pakata-goh-RDolnHtjVCY-unsplash.jpg"
+									src="/Drawing_laptop_hands.png"
 									alt="A person having an honest one-on-one conversation"
 									width={640}
 									height={480}
@@ -426,7 +426,7 @@ export default function HomePage() {
 							</p>
 							<div className="overflow-hidden rounded-lg">
 								<Image
-									src="/glenn-carstens-peters-P1qyEf1g0HU-unsplash.jpg"
+									src="/Drawing_man_on_computer.png"
 									alt="Person monitoring a website at a desk"
 									width={640}
 									height={480}
@@ -448,7 +448,7 @@ export default function HomePage() {
 						{/* Left — image */}
 						<div className="overflow-hidden rounded-lg">
 							<Image
-								src="/simon-abrams-k_T9Zj3SE8k-unsplash.jpg"
+								src="/Drawing_mousepad.png"
 								alt="Person working at a desk making changes"
 								width={640}
 								height={480}
@@ -531,23 +531,29 @@ export default function HomePage() {
 							{ctaSection.heading}
 						</h2>
 						<p className="mb-8 text-lg leading-relaxed text-muted-foreground">
-							Check the{" "}
+							Check the frequently asked questions — chances are your question
+							is already answered. Or just ask it directly and I will get back
+							to you.
+						</p>
+						<div className="flex flex-wrap gap-3">
 							<Link
 								href="/faq"
-								className="underline underline-offset-4 hover:text-foreground"
+								className={cn(
+									buttonVariants({ variant: "outline", size: "lg" }),
+									"gap-2",
+								)}
 							>
-								frequently asked questions
-							</Link>{" "}
-							— chances are your question is already answered. Or just ask it
-							directly and I will get back to you.
-						</p>
-						<Link
-							href=""
-							className={cn(buttonVariants({ size: "lg" }), "gap-2")}
-						>
-							{ctaSection.button}
-							<ArrowRight className="h-4 w-4" />
-						</Link>
+								Go to FAQ
+								<ArrowRight className="h-4 w-4" />
+							</Link>
+							<Link
+								href="/contact#quick-question"
+								className={cn(buttonVariants({ size: "lg" }), "gap-2")}
+							>
+								Ask a question
+								<ArrowRight className="h-4 w-4" />
+							</Link>
+						</div>
 					</div>
 				</div>
 			</section>
