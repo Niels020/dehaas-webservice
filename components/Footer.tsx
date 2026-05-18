@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { siteConfig } from "@/site.config";
 
 const navLinks = [
-	{ href: "/about", label: "About" },
+	{ href: "/", label: "Home" },
 	{ href: "/services", label: "Services" },
 	{ href: "/faq", label: "FAQ" },
 	{ href: "/contact", label: "Contact" },
@@ -62,7 +63,12 @@ export default function Footer() {
 				<Separator className="my-6" />
 
 				<div className="flex flex-col gap-1 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-					<p>&copy; {year} dehaas webservice &mdash; KvK: [placeholder]</p>
+					<p>
+						&copy; {year} dehaas webservice
+						{siteConfig.kvkNumber !== "[placeholder]" && (
+							<> &mdash; KvK: {siteConfig.kvkNumber}</>
+						)}
+					</p>
 					<div className="flex items-center gap-4">
 						<Link
 							href="/privacy"

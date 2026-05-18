@@ -225,13 +225,9 @@ export default function HomePage() {
 							{hero.subheadline}
 						</p>
 						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-							I build websites for small businesses, and I have built a solid
-							infrastructure to keep them running. Automated updates, uptime
-							monitoring, security patching, backups. Most websites quietly fall
-							behind on this. Updates pile up, security gets ignored, and before
-							long the damage is done.
-							<br />
-							<br />
+							{hero.body1}
+						</p>
+						<p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
 							{hero.body2}
 						</p>
 						<div className="mt-8 flex flex-wrap gap-3">
@@ -337,7 +333,7 @@ export default function HomePage() {
 						</div>
 
 						{/* Right — three reasons */}
-						<div className="flex flex-col divide-y divide-border pl-24 pr-24">
+						<div className="flex flex-col divide-y divide-border lg:pl-24 lg:pr-24">
 							{whyReasons.map(({ title, body }) => (
 								<div key={title} className="py-10 first:pt-0 last:pb-0">
 									<h3 className="mb-3 text-xl font-semibold text-foreground">
@@ -395,7 +391,7 @@ export default function HomePage() {
 				aria-labelledby="maintenance-heading"
 				className="bg-background px-4 py-24 sm:px-6 md:py-32"
 			>
-				<div className="mx-auto max-w-6xl pl-24">
+				<div className="mx-auto max-w-6xl lg:pl-24">
 					<div className="grid items-start gap-32 lg:grid-cols-[2fr_3fr]">
 						{/* Left — 8 checks */}
 						<ul className="flex flex-col divide-y divide-border">
@@ -479,7 +475,7 @@ export default function HomePage() {
 			{/* FAQ teaser */}
 			<section
 				aria-labelledby="faq-teaser-heading"
-				className="bg-muted/50 px-4 py-24 sm:px-6 md:py-32"
+				className="bg-background px-4 py-24 sm:px-6 md:py-32"
 			>
 				<div className="mx-auto max-w-6xl">
 					<div className="max-w-2xl">

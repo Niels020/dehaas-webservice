@@ -4,7 +4,7 @@
 //
 // This runs at build time (server component), not in the browser.
 
-import fs from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { remark } from "remark";
 import html from "remark-html";
@@ -27,7 +27,7 @@ export async function renderPolicy(locale: "nl" | "en"): Promise<string> {
 		"content/legal",
 		`privacy.${locale}.md`
 	);
-	let raw = fs.readFileSync(file, "utf8");
+	let raw = await readFile(file, "utf8");
 
 	// Strip the HTML comment block at the top (editor notes, not for visitors)
 	raw = raw.replace(/^<!--[\s\S]*?-->\s*/, "");
