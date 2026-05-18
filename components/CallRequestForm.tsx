@@ -167,6 +167,26 @@ function SectionShell({
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function CallRequestForm() {
+	// Section 1 — tracked for completion
+	const [fullName, setFullName] = useState("");
+	const [email, setEmail] = useState("");
+
+	// Section 2 — tracked for completion + conditional fields
+	const [hasWebsite, setHasWebsite] = useState<"" | "yes" | "no">("");
+	const [hasDomain, setHasDomain] = useState<"" | "yes" | "no" | "not-sure">(
+		"",
+	);
+
+	// Section 3 — tracked for completion
+	const [projectType, setProjectType] = useState("");
+	const [timeline, setTimeline] = useState("");
+	const [functionality, setFunctionality] = useState<string[]>([]);
+
+	// Section 4 — tracked for completion
+	const [textReady, setTextReady] = useState("");
+	const [photosReady, setPhotosReady] = useState("");
+	const [hasLogo, setHasLogo] = useState("");
+
 	// Accordion state
 	const [closedByUser, setClosedByUser] = useState<Set<SectionId>>(new Set());
 
@@ -193,26 +213,6 @@ export default function CallRequestForm() {
 		() => new Set([...unlockedSections].filter((id) => !closedByUser.has(id))),
 		[unlockedSections, closedByUser],
 	);
-
-	// Section 1 — tracked for completion
-	const [fullName, setFullName] = useState("");
-	const [email, setEmail] = useState("");
-
-	// Section 2 — tracked for completion + conditional fields
-	const [hasWebsite, setHasWebsite] = useState<"" | "yes" | "no">("");
-	const [hasDomain, setHasDomain] = useState<"" | "yes" | "no" | "not-sure">(
-		"",
-	);
-
-	// Section 3 — tracked for completion
-	const [projectType, setProjectType] = useState("");
-	const [timeline, setTimeline] = useState("");
-	const [functionality, setFunctionality] = useState<string[]>([]);
-
-	// Section 4 — tracked for completion
-	const [textReady, setTextReady] = useState("");
-	const [photosReady, setPhotosReady] = useState("");
-	const [hasLogo, setHasLogo] = useState("");
 
 	// Auto-unlock next section when current section is complete
 	function isComplete(id: SectionId): boolean {
