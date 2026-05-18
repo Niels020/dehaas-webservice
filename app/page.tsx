@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -17,12 +18,9 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion";
+const FaqAccordionTeaser = dynamic(
+	() => import("@/components/FaqAccordionTeaser"),
+);
 
 export const metadata: Metadata = {
 	title: "dehaas webservice: websites for small businesses",
@@ -43,7 +41,7 @@ const hero = {
 
 // Services
 const servicesSection = {
-	heading: "The service, in short.",
+	heading: "The services, in short.",
 	subheading:
 		"Everything a website needs, in three steps. From the first design to a million visitors.",
 };
@@ -332,6 +330,7 @@ export default function HomePage() {
 									alt="A person having an honest one-on-one conversation"
 									width={640}
 									height={480}
+									sizes="(max-width: 768px) 100vw, 640px"
 									className="h-80 w-full object-cover saturate-[0.7]"
 								/>
 							</div>
@@ -430,6 +429,7 @@ export default function HomePage() {
 									alt="Person monitoring a website at a desk"
 									width={640}
 									height={480}
+									sizes="(max-width: 768px) 100vw, 640px"
 									className="h-80 w-full object-cover saturate-[0.7]"
 								/>
 							</div>
@@ -452,6 +452,7 @@ export default function HomePage() {
 								alt="Person working at a desk making changes"
 								width={640}
 								height={480}
+								sizes="(max-width: 768px) 100vw, 640px"
 								className="h-80 w-full object-cover saturate-[0.7]"
 							/>
 						</div>
@@ -491,18 +492,7 @@ export default function HomePage() {
 						<p className="mb-8 text-lg text-muted-foreground">
 							{faqSection.subheading}
 						</p>
-						<Accordion className="w-full">
-							{faqTeaser.map(({ q, a }) => (
-								<AccordionItem key={q} value={q}>
-									<AccordionTrigger className="text-left text-base font-medium">
-										{q}
-									</AccordionTrigger>
-									<AccordionContent className="text-base leading-relaxed text-muted-foreground">
-										{a}
-									</AccordionContent>
-								</AccordionItem>
-							))}
-						</Accordion>
+					<FaqAccordionTeaser items={faqTeaser} />
 						<div className="mt-8">
 							<Link
 								href="/faq"
