@@ -1,8 +1,4 @@
-import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
 	Accordion,
 	AccordionContent,

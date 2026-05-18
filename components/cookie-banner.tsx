@@ -10,25 +10,25 @@
 //
 // Use hasConsent() to conditionally load third-party scripts that set cookies.
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { siteConfig } from "@/site.config";
 
 const STORAGE_KEY = "cookie-consent-v1";
 
 export function CookieBanner() {
-	const [open, setOpen] = useState(false);
-
-	useEffect(() => {
-		if (!siteConfig.requiresCookieConsent) return;
-		if (!localStorage.getItem(STORAGE_KEY)) setOpen(true);
-	}, []);
+	const [open, setOpen] = useState(
+		() =>
+			siteConfig.requiresCookieConsent &&
+			typeof window !== "undefined" &&
+			!localStorage.getItem(STORAGE_KEY),
+	);
 
 	if (!siteConfig.requiresCookieConsent || !open) return null;
 
 	const decide = (value: "accept" | "decline") => {
 		localStorage.setItem(
 			STORAGE_KEY,
-			JSON.stringify({ value, at: new Date().toISOString() })
+			JSON.stringify({ value, at: new Date().toISOString() }),
 		);
 		setOpen(false);
 	};
@@ -72,8 +72,7 @@ export function hasConsent(): boolean {
 	if (typeof window === "undefined") return false;
 	try {
 		return (
-			JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}").value ===
-			"accept"
+			JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}").value === "accept"
 		);
 	} catch {
 		return false;

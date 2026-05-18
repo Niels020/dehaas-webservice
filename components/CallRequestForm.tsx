@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { ArrowRight, Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -168,11 +168,30 @@ function SectionShell({
 
 export default function CallRequestForm() {
 	// Accordion state
-	const [openSections, setOpenSections] = useState<Set<SectionId>>(
-		new Set([1]),
-	);
-	const [unlockedSections, setUnlockedSections] = useState<Set<SectionId>>(
-		new Set([1]),
+	const [closedByUser, setClosedByUser] = useState<Set<SectionId>>(new Set());
+
+	const unlockedSections = useMemo<Set<SectionId>>(() => {
+		const s = new Set<SectionId>([1]);
+		if (fullName.trim() && email.trim()) s.add(2);
+		if (hasWebsite && hasDomain) s.add(3);
+		if (projectType && timeline) s.add(4);
+		if (textReady && photosReady && hasLogo) s.add(5);
+		return s;
+	}, [
+		fullName,
+		email,
+		hasWebsite,
+		hasDomain,
+		projectType,
+		timeline,
+		textReady,
+		photosReady,
+		hasLogo,
+	]);
+
+	const openSections = useMemo<Set<SectionId>>(
+		() => new Set([...unlockedSections].filter((id) => !closedByUser.has(id))),
+		[unlockedSections, closedByUser],
 	);
 
 	// Section 1 — tracked for completion
@@ -196,34 +215,6 @@ export default function CallRequestForm() {
 	const [hasLogo, setHasLogo] = useState("");
 
 	// Auto-unlock next section when current section is complete
-	useEffect(() => {
-		if (fullName.trim() && email.trim()) {
-			setUnlockedSections((p) => (p.has(2) ? p : new Set([...p, 2])));
-			setOpenSections((p) => (p.has(2) ? p : new Set([...p, 2])));
-		}
-	}, [fullName, email]);
-
-	useEffect(() => {
-		if (hasWebsite && hasDomain) {
-			setUnlockedSections((p) => (p.has(3) ? p : new Set([...p, 3])));
-			setOpenSections((p) => (p.has(3) ? p : new Set([...p, 3])));
-		}
-	}, [hasWebsite, hasDomain]);
-
-	useEffect(() => {
-		if (projectType && timeline) {
-			setUnlockedSections((p) => (p.has(4) ? p : new Set([...p, 4])));
-			setOpenSections((p) => (p.has(4) ? p : new Set([...p, 4])));
-		}
-	}, [projectType, timeline]);
-
-	useEffect(() => {
-		if (textReady && photosReady && hasLogo) {
-			setUnlockedSections((p) => (p.has(5) ? p : new Set([...p, 5])));
-			setOpenSections((p) => (p.has(5) ? p : new Set([...p, 5])));
-		}
-	}, [textReady, photosReady, hasLogo]);
-
 	function isComplete(id: SectionId): boolean {
 		switch (id) {
 			case 1:
@@ -241,10 +232,10 @@ export default function CallRequestForm() {
 
 	function toggleSection(id: SectionId) {
 		if (!unlockedSections.has(id)) return;
-		setOpenSections((prev) => {
+		setClosedByUser((prev) => {
 			const next = new Set(prev);
-			if (next.has(id)) next.delete(id);
-			else next.add(id);
+			if (openSections.has(id)) next.add(id);
+			else next.delete(id);
 			return next;
 		});
 	}
