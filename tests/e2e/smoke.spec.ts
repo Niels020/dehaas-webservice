@@ -7,8 +7,8 @@ import { test, expect } from "@playwright/test";
 const routes = [
 	{ path: "/", title: "dehaas webservice" },
 	{ path: "/services", title: "Services" },
-	{ path: "/faq", title: "FAQ" },
-	{ path: "/contact", title: "Contact" },
+	{ path: "/faq", title: "Questions" },
+	{ path: "/contact", title: "Book a call" },
 	{ path: "/privacy", title: "Privacy" },
 ];
 

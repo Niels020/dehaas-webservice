@@ -46,7 +46,7 @@ test.describe("Contact page forms", () => {
 
 	test("skip link to quick question exists", async ({ page }) => {
 		// The hero should have a skip link that anchors to #quick-question
-		const skipLink = page.getByRole("link", { name: /quick question/i });
+		const skipLink = page.locator('a[href="#quick-question"]');
 		await expect(skipLink).toBeVisible();
 	});
 });
