@@ -39,6 +39,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# Claude Code — downloaded skill content (skills-lock.json is committed instead)
+.agents/
+
 # vercel
 .vercel
 
