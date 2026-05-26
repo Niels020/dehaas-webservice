@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { ArrowRight, Check, ChevronDown } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // ─── Types & constants ────────────────────────────────────────────────────────
@@ -14,13 +14,6 @@ const SECTIONS: { id: SectionId; title: string }[] = [
 	{ id: 3, title: "What you're looking for" },
 	{ id: 4, title: "Content readiness" },
 	{ id: 5, title: "Scheduling & questions" },
-];
-
-const FUNCTIONALITY_OPTIONS = [
-	"Contact form",
-	"Booking system",
-	"Online payments",
-	"Multilingual",
 ];
 
 // ─── Shared classes ───────────────────────────────────────────────────────────
@@ -164,37 +157,137 @@ function SectionShell({
 	);
 }
 
+// ─── Notes compiler ──────────────────────────────────────────────────────────
+
+interface FormValues {
+	businessName: string;
+	phone: string;
+	hasWebsite: string;
+	websiteUrl: string;
+	websiteProblem: string;
+	hasDomain: string;
+	domainName: string;
+	designCertainty: string;
+	pageCount: string;
+	functionalityText: string;
+	timeline: string;
+	textReady: string;
+	photosReady: string;
+	hasLogo: string;
+	questions: string;
+}
+
+function buildNotes(v: FormValues): string {
+	const l = (map: Record<string, string>, key: string) => map[key] ?? key;
+
+	const certainty: Record<string, string> = {
+		"1": "No idea", "2": "Rough idea", "3": "Pretty clear", "4": "I know exactly",
+	};
+	const pages: Record<string, string> = {
+		"1": "1", "2": "2", "3": "3", "4": "4", more: "More than 4", "dont-know": "Don't know",
+	};
+	const timelines: Record<string, string> = {
+		"no-rush": "No rush",
+		"within-a-month": "Within a month",
+		"within-a-few-weeks": "Within a few weeks",
+		asap: "As soon as possible",
+	};
+	const ready: Record<string, string> = {
+		yes: "Yes", partly: "Partly", "no-help-needed": "No — needs help", no: "No — needs help",
+	};
+	const domain: Record<string, string> = { yes: "Yes", no: "No", "not-sure": "Not sure" };
+
+	const lines: string[] = [];
+
+	if (v.businessName) lines.push(`Business: ${v.businessName}`);
+	if (v.phone) lines.push(`Phone: ${v.phone}`);
+
+	lines.push("", `Current website: ${v.hasWebsite === "yes" ? "Yes" : "No"}`);
+	if (v.hasWebsite === "yes") {
+		if (v.websiteUrl) lines.push(`URL: ${v.websiteUrl}`);
+		if (v.websiteProblem) lines.push(`Why changing: ${v.websiteProblem}`);
+	} else if (v.hasWebsite === "no") {
+		lines.push(`Domain owned: ${l(domain, v.hasDomain)}`);
+		if (v.hasDomain === "yes" && v.domainName) lines.push(`Domain: ${v.domainName}`);
+	}
+
+	lines.push(
+		"",
+		`Design certainty: ${l(certainty, v.designCertainty)}`,
+		`Pages needed: ${l(pages, v.pageCount)}`,
+	);
+	if (v.functionalityText) lines.push(`Special functionality: ${v.functionalityText}`);
+	lines.push(`Timeline: ${l(timelines, v.timeline)}`);
+
+	lines.push(
+		"",
+		`Text ready: ${l(ready, v.textReady)}`,
+		`Photos ready: ${l(ready, v.photosReady)}`,
+		`Logo: ${v.hasLogo === "yes" ? "Yes" : "No — needs help"}`,
+	);
+
+	if (v.questions) lines.push("", `Questions:\n${v.questions}`);
+
+	return lines.join("\n").trim();
+}
+
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function CallRequestForm() {
-	// Section 1 — tracked for completion
+	// Section 1
 	const [fullName, setFullName] = useState("");
 	const [email, setEmail] = useState("");
+	const [businessName, setBusinessName] = useState("");
+	const [phone, setPhone] = useState("");
 
 	// Section 2 — tracked for completion + conditional fields
 	const [hasWebsite, setHasWebsite] = useState<"" | "yes" | "no">("");
+	const [websiteUrl, setWebsiteUrl] = useState("");
+	const [websiteProblem, setWebsiteProblem] = useState("");
 	const [hasDomain, setHasDomain] = useState<"" | "yes" | "no" | "not-sure">(
 		"",
 	);
+	const [domainName, setDomainName] = useState("");
 
 	// Section 3 — tracked for completion
-	const [projectType, setProjectType] = useState("");
+	const [designCertainty, setDesignCertainty] = useState("");
+	const [pageCount, setPageCount] = useState("");
+	const [functionalityText, setFunctionalityText] = useState("");
 	const [timeline, setTimeline] = useState("");
-	const [functionality, setFunctionality] = useState<string[]>([]);
 
 	// Section 4 — tracked for completion
 	const [textReady, setTextReady] = useState("");
 	const [photosReady, setPhotosReady] = useState("");
 	const [hasLogo, setHasLogo] = useState("");
 
+	// Section 5
+	const [questions, setQuestions] = useState("");
+
+	// Ref so the Cal.com setTimeout always reads the latest field values,
+	// even if the user keeps typing after section 5 unlocks.
+	const formRef = useRef<FormValues>({
+		businessName, phone, hasWebsite, websiteUrl, websiteProblem,
+		hasDomain, domainName, designCertainty, pageCount, functionalityText,
+		timeline, textReady, photosReady, hasLogo, questions,
+	});
+	formRef.current = {
+		businessName, phone, hasWebsite, websiteUrl, websiteProblem,
+		hasDomain, domainName, designCertainty, pageCount, functionalityText,
+		timeline, textReady, photosReady, hasLogo, questions,
+	};
+
+
 	// Accordion state
 	const [closedByUser, setClosedByUser] = useState<Set<SectionId>>(new Set());
+
+	// Form submission
+	const [submitted, setSubmitted] = useState(false);
 
 	const unlockedSections = useMemo<Set<SectionId>>(() => {
 		const s = new Set<SectionId>([1]);
 		if (fullName.trim() && email.trim()) s.add(2);
-		if (hasWebsite && hasDomain) s.add(3);
-		if (projectType && timeline) s.add(4);
+		if (hasWebsite === "yes" || (hasWebsite === "no" && hasDomain)) s.add(3);
+		if (designCertainty && pageCount && timeline) s.add(4);
 		if (textReady && photosReady && hasLogo) s.add(5);
 		return s;
 	}, [
@@ -202,7 +295,8 @@ export default function CallRequestForm() {
 		email,
 		hasWebsite,
 		hasDomain,
-		projectType,
+		designCertainty,
+		pageCount,
 		timeline,
 		textReady,
 		photosReady,
@@ -214,15 +308,101 @@ export default function CallRequestForm() {
 		[unlockedSections, closedByUser],
 	);
 
+	// True as soon as section 5 is open in the accordion
+	const isSection5Open = openSections.has(5 as SectionId);
+
+	// Guards against double-initialisation (React StrictMode, etc.)
+	const calInitRef = useRef(false);
+
+	// Defer initialising Cal.com until section 5 is open so the iframe
+	// mounts into a container with real dimensions (after the 300ms animation).
+	//
+	// embed.js is NOT a standalone library — it upgrades a pre-existing shim.
+	// The correct pattern is: install the official shim first, queue all
+	// configuration calls, then let the shim load embed.js asynchronously.
+	useEffect(() => {
+		if (!isSection5Open || calInitRef.current) return;
+
+		const timer = setTimeout(() => {
+			if (calInitRef.current) return;
+			calInitRef.current = true;
+
+			/* eslint-disable @typescript-eslint/no-explicit-any */
+			const w = window as any;
+
+			// Official Cal.com shim — mirrors the inline embed snippet.
+			// Queues calls made before embed.js arrives and auto-loads the script.
+			if (!w.Cal) {
+				const cal: any = function (...args: any[]) {
+					if (!cal.loaded) {
+						cal.ns = {};
+						cal.q = cal.q || [];
+						const s = document.createElement("script");
+						s.src = "https://app.cal.eu/embed/embed.js";
+						s.async = true;
+						document.head.appendChild(s);
+						cal.loaded = true;
+					}
+					if (args[0] === "init") {
+						const ns = args[1];
+						const api: any = function (...a: any[]) {
+							api.q.push(a);
+						};
+						api.q = [];
+						if (typeof ns === "string") {
+							cal.ns[ns] = cal.ns[ns] || api;
+							api.q.push(args);
+							cal.q.push(["initNamespace", ns]);
+						} else {
+							cal.q.push(args);
+						}
+						return;
+					}
+					cal.q.push(args);
+				};
+				cal.q = [];
+				cal.ns = {};
+				w.Cal = cal;
+			}
+			/* eslint-enable @typescript-eslint/no-explicit-any */
+
+			const Cal = w.Cal;
+			Cal("init", "inline", { origin: "https://app.cal.eu" });
+			Cal.ns.inline("inline", {
+				elementOrSelector: "#cal-inline",
+				calLink: "dehaas/free-consult",
+				layout: "month_view",
+				config: {
+					name: fullName,
+					email,
+					notes: buildNotes(formRef.current),
+				},
+			});
+			Cal.ns.inline("ui", {
+				styles: { branding: { brandColor: "#000000" } },
+				hideEventTypeDetails: false,
+				layout: "month_view",
+			});
+			Cal.ns.inline("on", {
+				action: "bookingSuccessful",
+				callback: () => setSubmitted(true),
+			});
+		}, 400);
+
+		return () => clearTimeout(timer);
+	}, [isSection5Open]);
+
 	// Auto-unlock next section when current section is complete
 	function isComplete(id: SectionId): boolean {
 		switch (id) {
 			case 1:
 				return !!fullName.trim() && !!email.trim();
 			case 2:
-				return hasWebsite !== "" && hasDomain !== "";
+				return (
+					hasWebsite === "yes" || (hasWebsite === "no" && hasDomain !== "")
+				);
 			case 3:
-				return projectType !== "" && timeline !== "";
+				return designCertainty !== "" && pageCount !== "" && timeline !== "";
 			case 4:
 				return textReady !== "" && photosReady !== "" && hasLogo !== "";
 			case 5:
@@ -240,12 +420,6 @@ export default function CallRequestForm() {
 		});
 	}
 
-	function toggleFunctionality(opt: string) {
-		setFunctionality((prev) =>
-			prev.includes(opt) ? prev.filter((v) => v !== opt) : [...prev, opt],
-		);
-	}
-
 	function shellProps(id: SectionId) {
 		return {
 			id,
@@ -257,13 +431,29 @@ export default function CallRequestForm() {
 		};
 	}
 
+	if (submitted) {
+		return (
+			<div className="rounded-2xl border border-primary/30 bg-card px-6 py-10 text-center">
+				<Check className="mx-auto mb-4 h-8 w-8 text-primary" />
+				<h3 className="mb-1.5 text-base font-semibold text-foreground">
+					Request received!
+				</h3>
+				<p className="text-sm text-muted-foreground">
+					Check your email for the booking confirmation. Looking forward to our
+					call.
+				</p>
+			</div>
+		);
+	}
+
 	return (
-		<form
-			className="flex flex-col gap-3"
-			action="mailto:info@dehaaswebservice.nl"
-			method="get"
-			encType="text/plain"
-		>
+		<div className="flex flex-col gap-3">
+			<p className="mb-2 text-sm leading-relaxed text-muted-foreground">
+				Fill in as much as you can. The more detail, the better — it helps me
+				prepare so we can use our 30 minutes as well as possible. Nothing here
+				is set in stone.
+			</p>
+
 			{/* ── Section 1: About you ── */}
 			<SectionShell {...shellProps(1)}>
 				<div className="flex flex-col gap-5">
@@ -280,7 +470,6 @@ export default function CallRequestForm() {
 							value={fullName}
 							onChange={(e) => setFullName(e.target.value)}
 							className={ic}
-							placeholder="Jan de Vries"
 						/>
 					</div>
 
@@ -292,8 +481,9 @@ export default function CallRequestForm() {
 							id="business-name"
 							name="business-name"
 							type="text"
+							value={businessName}
+							onChange={(e) => setBusinessName(e.target.value)}
 							className={ic}
-							placeholder="De Vries Loodgieters"
 						/>
 					</div>
 
@@ -310,7 +500,6 @@ export default function CallRequestForm() {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							className={ic}
-							placeholder="jan@devriesloodgieters.nl"
 						/>
 					</div>
 
@@ -323,8 +512,9 @@ export default function CallRequestForm() {
 							name="phone"
 							type="tel"
 							autoComplete="tel"
+							value={phone}
+							onChange={(e) => setPhone(e.target.value)}
 							className={ic}
-							placeholder="+31 6 12 34 56 78"
 						/>
 					</div>
 				</div>
@@ -342,7 +532,10 @@ export default function CallRequestForm() {
 								{ value: "no", label: "No" },
 							]}
 							value={hasWebsite}
-							onChange={(v) => setHasWebsite(v as "yes" | "no")}
+							onChange={(v) => {
+								setHasWebsite(v as "yes" | "no");
+								if (v === "yes") setHasDomain("");
+							}}
 						/>
 					</div>
 
@@ -357,6 +550,8 @@ export default function CallRequestForm() {
 									name="website-url"
 									type="url"
 									autoComplete="url"
+									value={websiteUrl}
+									onChange={(e) => setWebsiteUrl(e.target.value)}
 									className={ic}
 									placeholder="https://example.nl"
 								/>
@@ -369,6 +564,8 @@ export default function CallRequestForm() {
 									id="website-problem"
 									name="website-problem"
 									rows={3}
+									value={websiteProblem}
+									onChange={(e) => setWebsiteProblem(e.target.value)}
 									className={tc}
 									placeholder="It's outdated, hard to find on Google, doesn't look good on mobile…"
 								/>
@@ -376,21 +573,23 @@ export default function CallRequestForm() {
 						</>
 					)}
 
-					<div>
-						<span className={lc}>Do you own a domain name?</span>
-						<PillRadio
-							name="has-domain"
-							options={[
-								{ value: "yes", label: "Yes" },
-								{ value: "no", label: "No" },
-								{ value: "not-sure", label: "Not sure" },
-							]}
-							value={hasDomain}
-							onChange={(v) => setHasDomain(v as "yes" | "no" | "not-sure")}
-						/>
-					</div>
+					{hasWebsite === "no" && (
+						<div>
+							<span className={lc}>Do you own a domain name?</span>
+							<PillRadio
+								name="has-domain"
+								options={[
+									{ value: "yes", label: "Yes" },
+									{ value: "no", label: "No" },
+									{ value: "not-sure", label: "Not sure" },
+								]}
+								value={hasDomain}
+								onChange={(v) => setHasDomain(v as "yes" | "no" | "not-sure")}
+							/>
+						</div>
+					)}
 
-					{hasDomain === "yes" && (
+					{hasWebsite === "no" && hasDomain === "yes" && (
 						<div>
 							<label htmlFor="domain-name" className={lc}>
 								Domain name
@@ -399,6 +598,8 @@ export default function CallRequestForm() {
 								id="domain-name"
 								name="domain-name"
 								type="text"
+								value={domainName}
+								onChange={(e) => setDomainName(e.target.value)}
 								className={ic}
 								placeholder="devriesloodgieters.nl"
 							/>
@@ -411,92 +612,54 @@ export default function CallRequestForm() {
 			<SectionShell {...shellProps(3)}>
 				<div className="flex flex-col gap-6">
 					<div>
-						<span className={lc}>What do you need?</span>
+						<span className={lc}>
+							How sure are you about how the website should look?
+						</span>
 						<PillRadio
-							name="project-type"
+							name="design-certainty"
 							options={[
-								{ value: "rebuild", label: "Rebuild existing site" },
-								{ value: "new", label: "New site from scratch" },
-								{ value: "not-sure", label: "Not sure yet" },
+								{ value: "1", label: "no idea" },
+								{ value: "2", label: "rough idea" },
+								{ value: "3", label: "pretty clear" },
+								{ value: "4", label: "I know exactly" },
 							]}
-							value={projectType}
-							onChange={setProjectType}
+							value={designCertainty}
+							onChange={setDesignCertainty}
 						/>
 					</div>
 
 					<div>
-						<label htmlFor="pages" className={lc}>
-							Which pages do you think you need?
-						</label>
-						<textarea
-							id="pages"
-							name="pages"
-							rows={2}
-							className={tc}
-							placeholder="Home, about, services, contact…"
+						<span className={lc}>How many pages do you need?</span>
+						<PillRadio
+							name="page-count"
+							options={[
+								{ value: "1", label: "1" },
+								{ value: "2", label: "2" },
+								{ value: "3", label: "3" },
+								{ value: "4", label: "4" },
+								{ value: "more", label: "More" },
+								{ value: "dont-know", label: "I don't know" },
+							]}
+							value={pageCount}
+							onChange={setPageCount}
 						/>
 					</div>
 
 					<div>
-						<span className={lc}>Any specific functionality?</span>
-						<div className="flex flex-wrap gap-2">
-							{FUNCTIONALITY_OPTIONS.map((opt) => (
-								<label
-									key={opt}
-									className={cn(
-										"flex cursor-pointer select-none items-center rounded-lg border px-4 py-2 text-sm transition-colors duration-150",
-										functionality.includes(opt)
-											? "border-primary bg-primary/10 font-medium text-primary"
-											: "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground",
-									)}
-								>
-									<input
-										type="checkbox"
-										name="functionality"
-										value={opt.toLowerCase().replace(/ /g, "-")}
-										checked={functionality.includes(opt)}
-										onChange={() => toggleFunctionality(opt)}
-										className="sr-only"
-									/>
-									{opt}
-								</label>
-							))}
-						</div>
-						<input
-							type="hidden"
-							name="functionality-list"
-							value={functionality.join(", ")}
-						/>
-						<div className="mt-3">
-							<label
-								htmlFor="functionality-other"
-								className="block text-sm text-muted-foreground mb-1.5"
-							>
-								Anything else?
-							</label>
-							<input
-								id="functionality-other"
-								name="functionality-other"
-								type="text"
-								className={ic}
-								placeholder="Blog, newsletter signup, members area…"
-							/>
-						</div>
-					</div>
-
-					<div>
-						<label htmlFor="reference-sites" className={lc}>
-							Are there websites you like the look of?{" "}
+						<label htmlFor="functionality" className={lc}>
+							Do you need any specific functionality?{" "}
 							<span className="font-normal text-muted-foreground">
 								(optional)
 							</span>
 						</label>
-						<textarea
-							id="reference-sites"
-							name="reference-sites"
-							rows={2}
-							className={tc}
-							placeholder="URLs or descriptions — anything that gives me an idea of the style you like."
+						<input
+							id="functionality"
+							name="functionality"
+							type="text"
+							value={functionalityText}
+							onChange={(e) => setFunctionalityText(e.target.value)}
+							className={ic}
+							placeholder="e.g. contact form, image gallery, special animations"
 						/>
 					</div>
 
@@ -541,7 +704,7 @@ export default function CallRequestForm() {
 							options={[
 								{ value: "yes", label: "Yes" },
 								{ value: "partly", label: "Partly" },
-								{ value: "no", label: "No" },
+								{ value: "no", label: "No, I need help" },
 							]}
 							value={photosReady}
 							onChange={setPhotosReady}
@@ -554,7 +717,7 @@ export default function CallRequestForm() {
 							name="has-logo"
 							options={[
 								{ value: "yes", label: "Yes" },
-								{ value: "no", label: "No" },
+								{ value: "no", label: "No, I need help" },
 							]}
 							value={hasLogo}
 							onChange={setHasLogo}
@@ -574,35 +737,6 @@ export default function CallRequestForm() {
 			<SectionShell {...shellProps(5)}>
 				<div className="flex flex-col gap-5">
 					<div>
-						<label htmlFor="preferred-time" className={lc}>
-							Preferred day/time for a first consult
-						</label>
-						<input
-							id="preferred-time"
-							name="preferred-time"
-							type="text"
-							className={ic}
-							placeholder="e.g. weekday mornings, Tuesday afternoons…"
-						/>
-					</div>
-
-					<div>
-						<label htmlFor="referral" className={lc}>
-							How did you find us?{" "}
-							<span className="font-normal text-muted-foreground">
-								(optional)
-							</span>
-						</label>
-						<input
-							id="referral"
-							name="referral"
-							type="text"
-							className={ic}
-							placeholder="Google, word of mouth, social media…"
-						/>
-					</div>
-
-					<div>
 						<label htmlFor="cr-questions" className={lc}>
 							Any questions for me?{" "}
 							<span className="font-normal text-muted-foreground">
@@ -613,23 +747,23 @@ export default function CallRequestForm() {
 							id="cr-questions"
 							name="questions"
 							rows={3}
+							value={questions}
+							onChange={(e) => setQuestions(e.target.value)}
 							className={tc}
 							placeholder="Anything you'd like to know before our call."
 						/>
 					</div>
+
+					<div>
+						<div className="mb-1.5 flex items-center gap-2">
+							<span className="text-sm font-medium text-foreground">
+								Pick a time that works for you
+							</span>
+						</div>
+						<div id="cal-inline" style={{ minHeight: "450px" }} />
+					</div>
 				</div>
 			</SectionShell>
-
-			{/* Submit */}
-			<div className="pt-2">
-				<button
-					type="submit"
-					className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-				>
-					Send request
-					<ArrowRight className="h-4 w-4" />
-				</button>
-			</div>
-		</form>
+		</div>
 	);
 }

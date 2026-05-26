@@ -46,11 +46,6 @@ export default function ContactPage() {
 				className="bg-muted/30 px-4 py-16 sm:px-6 md:py-24"
 			>
 				<div className="mx-auto max-w-2xl">
-					<p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-						Fill in as much as you can. The more detail, the better — it helps
-						me prepare so we can use our 30 minutes as well as possible. Nothing
-						here is set in stone.
-					</p>
 					<CallRequestForm />
 				</div>
 			</section>
