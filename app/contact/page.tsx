@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { ArrowRight } from "lucide-react";
 import CallRequestForm from "@/components/CallRequestForm";
+import QuickQuestionForm from "@/components/QuickQuestionForm";
 
 export const metadata: Metadata = {
 	title: "Book a call",
@@ -68,73 +68,7 @@ export default function ContactPage() {
 						to you.
 					</p>
 
-					<form
-						className="flex flex-col gap-5"
-						action="mailto:info@dehaaswebservice.nl"
-						method="get"
-						encType="text/plain"
-					>
-						<div className="flex flex-col gap-1.5">
-							<label
-								htmlFor="q-name"
-								className="text-sm font-medium text-foreground"
-							>
-								Your name
-							</label>
-							<input
-								id="q-name"
-								name="name"
-								type="text"
-								required
-								autoComplete="name"
-								className="rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-								placeholder="Jan de Vries"
-							/>
-						</div>
-
-						<div className="flex flex-col gap-1.5">
-							<label
-								htmlFor="q-email"
-								className="text-sm font-medium text-foreground"
-							>
-								Email address
-							</label>
-							<input
-								id="q-email"
-								name="email"
-								type="email"
-								required
-								autoComplete="email"
-								className="rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-								placeholder="jan@devriesloodgieters.nl"
-							/>
-						</div>
-
-						<div className="flex flex-col gap-1.5">
-							<label
-								htmlFor="q-message"
-								className="text-sm font-medium text-foreground"
-							>
-								Your question
-							</label>
-							<textarea
-								id="q-message"
-								name="message"
-								rows={4}
-								required
-								className="rounded-lg border border-input bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
-								placeholder="What would you like to know?"
-							/>
-						</div>
-
-						<button
-							type="submit"
-							className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-						>
-							Send message
-							<ArrowRight className="h-4 w-4" />
-						</button>
-					</form>
+					<QuickQuestionForm />
 				</div>
 			</section>
 		</>
