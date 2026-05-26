@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { useMemo, useState } from "react";
+import { ArrowRight, Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import CalTimePicker from "@/components/CalTimePicker";
+import { createBooking } from "@/app/actions/book-call";
 
 // ─── Types & constants ────────────────────────────────────────────────────────
 
@@ -263,24 +265,13 @@ export default function CallRequestForm() {
 	// Section 5
 	const [questions, setQuestions] = useState("");
 
-	// Ref so the Cal.com setTimeout always reads the latest field values,
-	// even if the user keeps typing after section 5 unlocks.
-	const formRef = useRef<FormValues>({
-		businessName, phone, hasWebsite, websiteUrl, websiteProblem,
-		hasDomain, domainName, designCertainty, pageCount, functionalityText,
-		timeline, textReady, photosReady, hasLogo, questions,
-	});
-	formRef.current = {
-		businessName, phone, hasWebsite, websiteUrl, websiteProblem,
-		hasDomain, domainName, designCertainty, pageCount, functionalityText,
-		timeline, textReady, photosReady, hasLogo, questions,
-	};
-
-
 	// Accordion state
 	const [closedByUser, setClosedByUser] = useState<Set<SectionId>>(new Set());
 
-	// Form submission
+	// Scheduling & submission
+	const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+	const [submitting, setSubmitting] = useState(false);
+	const [submitError, setSubmitError] = useState<string | null>(null);
 	const [submitted, setSubmitted] = useState(false);
 
 	const unlockedSections = useMemo<Set<SectionId>>(() => {
@@ -308,89 +299,41 @@ export default function CallRequestForm() {
 		[unlockedSections, closedByUser],
 	);
 
-	// True as soon as section 5 is open in the accordion
-	const isSection5Open = openSections.has(5 as SectionId);
+	async function handleSubmit() {
+		if (!selectedSlot) return;
+		setSubmitting(true);
+		setSubmitError(null);
 
-	// Guards against double-initialisation (React StrictMode, etc.)
-	const calInitRef = useRef(false);
+		const result = await createBooking({
+			start: selectedSlot,
+			name: fullName,
+			email,
+			notes: buildNotes({
+				businessName,
+				phone,
+				hasWebsite,
+				websiteUrl,
+				websiteProblem,
+				hasDomain,
+				domainName,
+				designCertainty,
+				pageCount,
+				functionalityText,
+				timeline,
+				textReady,
+				photosReady,
+				hasLogo,
+				questions,
+			}),
+		});
 
-	// Defer initialising Cal.com until section 5 is open so the iframe
-	// mounts into a container with real dimensions (after the 300ms animation).
-	//
-	// embed.js is NOT a standalone library — it upgrades a pre-existing shim.
-	// The correct pattern is: install the official shim first, queue all
-	// configuration calls, then let the shim load embed.js asynchronously.
-	useEffect(() => {
-		if (!isSection5Open || calInitRef.current) return;
-
-		const timer = setTimeout(() => {
-			if (calInitRef.current) return;
-			calInitRef.current = true;
-
-			/* eslint-disable @typescript-eslint/no-explicit-any */
-			const w = window as any;
-
-			// Official Cal.com shim — mirrors the inline embed snippet.
-			// Queues calls made before embed.js arrives and auto-loads the script.
-			if (!w.Cal) {
-				const cal: any = function (...args: any[]) {
-					if (!cal.loaded) {
-						cal.ns = {};
-						cal.q = cal.q || [];
-						const s = document.createElement("script");
-						s.src = "https://app.cal.eu/embed/embed.js";
-						s.async = true;
-						document.head.appendChild(s);
-						cal.loaded = true;
-					}
-					if (args[0] === "init") {
-						const ns = args[1];
-						const api: any = function (...a: any[]) {
-							api.q.push(a);
-						};
-						api.q = [];
-						if (typeof ns === "string") {
-							cal.ns[ns] = cal.ns[ns] || api;
-							api.q.push(args);
-							cal.q.push(["initNamespace", ns]);
-						} else {
-							cal.q.push(args);
-						}
-						return;
-					}
-					cal.q.push(args);
-				};
-				cal.q = [];
-				cal.ns = {};
-				w.Cal = cal;
-			}
-			/* eslint-enable @typescript-eslint/no-explicit-any */
-
-			const Cal = w.Cal;
-			Cal("init", "inline", { origin: "https://app.cal.eu" });
-			Cal.ns.inline("inline", {
-				elementOrSelector: "#cal-inline",
-				calLink: "dehaas/free-consult",
-				layout: "month_view",
-				config: {
-					name: fullName,
-					email,
-					notes: buildNotes(formRef.current),
-				},
-			});
-			Cal.ns.inline("ui", {
-				styles: { branding: { brandColor: "#000000" } },
-				hideEventTypeDetails: false,
-				layout: "month_view",
-			});
-			Cal.ns.inline("on", {
-				action: "bookingSuccessful",
-				callback: () => setSubmitted(true),
-			});
-		}, 400);
-
-		return () => clearTimeout(timer);
-	}, [isSection5Open]);
+		if (result.success) {
+			setSubmitted(true);
+		} else {
+			setSubmitError(result.error ?? "Something went wrong. Please try again.");
+			setSubmitting(false);
+		}
+	}
 
 	// Auto-unlock next section when current section is complete
 	function isComplete(id: SectionId): boolean {
@@ -755,13 +698,41 @@ export default function CallRequestForm() {
 					</div>
 
 					<div>
-						<div className="mb-1.5 flex items-center gap-2">
-							<span className="text-sm font-medium text-foreground">
-								Pick a time that works for you
-							</span>
-						</div>
-						<div id="cal-inline" style={{ minHeight: "450px" }} />
+						<span className="mb-2 block text-sm font-medium text-foreground">
+							Pick a time that works for you
+						</span>
+						<CalTimePicker
+							selectedSlot={selectedSlot}
+							onSelect={(slot) => setSelectedSlot(slot?.start ?? null)}
+						/>
 					</div>
+
+					{submitError && (
+						<p className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-2.5 text-sm text-destructive">
+							{submitError}
+						</p>
+					)}
+
+					<button
+						type="button"
+						onClick={handleSubmit}
+						disabled={!selectedSlot || submitting}
+						className={cn(
+							"inline-flex w-full items-center justify-center gap-2 rounded-xl px-8 py-3.5 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+							selectedSlot && !submitting
+								? "bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
+								: "bg-muted text-muted-foreground cursor-default",
+						)}
+					>
+						{submitting ? (
+							"Booking…"
+						) : (
+							<>
+								Book call
+								<ArrowRight className="h-4 w-4" />
+							</>
+						)}
+					</button>
 				</div>
 			</SectionShell>
 		</div>
