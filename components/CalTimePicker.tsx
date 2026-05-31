@@ -24,6 +24,15 @@ function formatTime(iso: string): string {
 	});
 }
 
+function formatDayLabel(key: string): string {
+	return new Date(key + "T12:00:00").toLocaleDateString("nl-NL", {
+		weekday: "long",
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	});
+}
+
 interface CalTimePickerProps {
 	selectedSlot: string | null;
 	onSelect: (slot: { start: string } | null) => void;
@@ -105,6 +114,7 @@ export default function CalTimePicker({
 					type="button"
 					onClick={prevMonth}
 					disabled={atCurrentMonth}
+					aria-label="Vorige maand"
 					className={cn(
 						"flex h-8 w-8 items-center justify-center rounded-lg border transition-colors",
 						atCurrentMonth
@@ -120,6 +130,7 @@ export default function CalTimePicker({
 				<button
 					type="button"
 					onClick={nextMonth}
+					aria-label="Volgende maand"
 					className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
 				>
 					<ChevronRight className="h-4 w-4" />
@@ -157,6 +168,7 @@ export default function CalTimePicker({
 							type="button"
 							onClick={() => handleDayClick(day)}
 							disabled={isPast || !available}
+							aria-label={formatDayLabel(key)}
 							className={cn(
 								"relative mx-auto flex h-9 w-9 items-center justify-center rounded-lg text-sm transition-colors",
 								isSelected &&
@@ -197,6 +209,7 @@ export default function CalTimePicker({
 									key={slot.start}
 									type="button"
 									onClick={() => onSelect({ start: slot.start })}
+									aria-label={`Tijdstip ${formatTime(slot.start)}`}
 									className={cn(
 										"rounded-lg border px-4 py-2 text-sm transition-colors",
 										selectedSlot === slot.start

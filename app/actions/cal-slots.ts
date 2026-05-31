@@ -19,6 +19,7 @@ export async function getAvailableSlots(
 	try {
 		const res = await fetch(url, {
 			headers: { "cal-api-version": "2024-09-04" },
+			next: { revalidate: 300 },
 		});
 		if (!res.ok) return {};
 		const data = await res.json();

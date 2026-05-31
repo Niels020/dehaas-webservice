@@ -24,8 +24,8 @@ for (const { path, title } of routes) {
 		expect(response?.status()).toBe(200);
 		await expect(page).toHaveTitle(new RegExp(title, "i"));
 
-		// Give the page a moment to settle (hydration, client components)
-		await page.waitForTimeout(500);
+		// Wait for all network activity to settle (hydration, client components)
+		await page.waitForLoadState("networkidle");
 		expect(errors).toHaveLength(0);
 	});
 }

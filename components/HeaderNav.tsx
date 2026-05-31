@@ -43,6 +43,7 @@ export default function HeaderNav({ navLinks }: { navLinks: NavLink[] }) {
 			{/* Mobile nav */}
 			<Sheet open={open} onOpenChange={setOpen}>
 				<SheetTrigger
+					type="button"
 					className={cn(
 						"inline-flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground md:hidden",
 					)}

@@ -27,7 +27,12 @@ export async function renderPolicy(locale: "nl" | "en"): Promise<string> {
 		"content/legal",
 		`privacy.${locale}.md`
 	);
-	let raw = await readFile(file, "utf8");
+	let raw: string;
+	try {
+		raw = await readFile(file, "utf8");
+	} catch (err) {
+		throw new Error(`Privacy policy file not found: ${file}`, { cause: err });
+	}
 
 	// Strip the HTML comment block at the top (editor notes, not for visitors)
 	raw = raw.replace(/^<!--[\s\S]*?-->\s*/, "");

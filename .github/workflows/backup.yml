@@ -24,6 +24,8 @@ jobs:
   mirror:
     name: Mirror to backup remote
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Check if backup is configured

@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UnderConstruction from "@/components/UnderConstruction";
 import { CookieBanner } from "@/components/cookie-banner";
+import { siteConfig } from "@/site.config";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export const metadata: Metadata = {
 		siteName: "dehaas webservice",
 		locale: "nl_NL",
 		type: "website",
+		images: [{ url: "/og-image.png", width: 1200, height: 630 }],
 	},
 };
 
@@ -43,7 +45,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html
-			lang="nl"
+			lang={siteConfig.defaultLocale}
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
 		>
 			<head>

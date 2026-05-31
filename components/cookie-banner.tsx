@@ -17,7 +17,10 @@ const STORAGE_KEY = "cookie-consent-v1";
 
 export function CookieBanner() {
 	const hasNoConsent = useSyncExternalStore(
-		() => () => {},
+		(callback) => {
+			window.addEventListener("storage", callback);
+			return () => window.removeEventListener("storage", callback);
+		},
 		() => !localStorage.getItem(STORAGE_KEY),
 		() => false,
 	);
@@ -52,12 +55,14 @@ export function CookieBanner() {
 			</p>
 			<div className="flex justify-end gap-2">
 				<button
+					type="button"
 					className="rounded-md border px-3 py-1.5 text-sm"
 					onClick={() => decide("decline")}
 				>
 					{nl ? "Weigeren" : "Decline"}
 				</button>
 				<button
+					type="button"
 					className="rounded-md bg-primary px-3 py-1.5 text-sm text-primary-foreground"
 					onClick={() => decide("accept")}
 				>

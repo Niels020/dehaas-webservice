@@ -28,6 +28,9 @@ jobs:
   build:
     name: Lint & Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
 
     steps:
       - name: Checkout code
