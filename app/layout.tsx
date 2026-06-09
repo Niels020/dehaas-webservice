@@ -60,7 +60,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body className="flex min-h-full flex-col">
-				<UnderConstruction />
+				{/* <UnderConstruction /> */}
 				<Header />
 				<main id="main-content" className="flex flex-1 flex-col">
 					{children}
