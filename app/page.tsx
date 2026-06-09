@@ -147,7 +147,7 @@ const maintenanceChecks = [
 	{
 		icon: Search,
 		title: "Metrics tracking",
-		body: "Visitor numbers, popular pages, traffic sources. Privacy-friendly analytics with no cookie banner, reviewed monthly. I send a short summary and flag anything worth knowing.",
+		body: "Visitor numbers, popular pages, traffic sources. Privacy-friendly analytics, reviewed monthly. I send a short summary and flag anything worth knowing.",
 	},
 	{
 		icon: FileCheck,
@@ -191,11 +191,11 @@ const faqTeaser = [
 	},
 	{
 		q: "How long does a build take?",
-		a: "Usually two weeks from the kick-off call to launch. It depends on how quickly we can align on the design and how fast you can supply any content or photos.",
+		a: "Usually two to four weeks from the kick-off call to launch. It depends on how quickly we can align on the design and how fast you can supply any content or photos.",
 	},
 	{
 		q: "What is included in the monthly maintenance fee?",
-		a: "Hosting, backups, security updates, and smaller content changes. You pay €9,95 per month and can cancel at any time.",
+		a: "Hosting, backups, security updates, and smaller content changes. You pay €9.95 per month. Cancel with one month's notice.",
 	},
 ];
 

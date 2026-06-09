@@ -105,7 +105,7 @@ const maintenanceItems = [
 	{
 		title: "Metrics tracking",
 		cadence: "Monthly",
-		body: "Knowing whether visitors are actually coming, which pages they land on, and where they come from is basic business information. Plausible analytics runs in the background on every site I maintain. It's privacy-friendly, GDPR-compliant, and needs no cookie banner. Once a month I pull the numbers, write a short summary, and flag anything worth your attention — a traffic drop, an unusually popular page, or a source of visitors you weren't expecting.",
+		body: "Knowing whether visitors are actually coming, which pages they land on, and where they come from is basic business information. Analytics runs in the background on every site I maintain, privacy-friendly and GDPR-compliant. Once a month I pull the numbers, write a short summary, and flag anything worth your attention: a traffic drop, an unusually popular page, or a source of visitors you weren't expecting.",
 	},
 	{
 		title: "Compliance check",

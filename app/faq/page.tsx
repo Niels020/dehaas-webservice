@@ -98,7 +98,7 @@ const faqCategories = [
 			},
 			{
 				q: "Do I get visitor statistics?",
-				a: "Yes. Plausible analytics runs on every site I maintain. It's privacy-friendly and needs no cookie banner. Once a month I pull the numbers, write a short summary, and flag anything worth your attention.",
+				a: "Yes. I track visitor numbers on every site I maintain using privacy-friendly, GDPR-compliant analytics. Once a month I pull the numbers, write a short summary, and flag anything worth your attention.",
 			},
 			{
 				q: "Can I make changes to the site myself?",
@@ -139,7 +139,7 @@ const faqCategories = [
 			},
 			{
 				q: "Do I need a cookie banner?",
-				a: "It depends on the setup. The analytics I use (Plausible) are cookie-free and GDPR-compliant, so a basic site often does not need a banner at all. If you add functionality that requires cookies, I include a GDPR-compliant consent banner as a build add-on.",
+				a: "It depends on the setup. The analytics I use are privacy-friendly and GDPR-compliant, so a basic site often does not need a banner at all. If you add functionality that requires cookies, I include a GDPR-compliant consent banner as a build add-on.",
 			},
 		],
 	},

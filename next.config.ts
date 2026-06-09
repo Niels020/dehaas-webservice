@@ -18,7 +18,7 @@ const securityHeaders = [
       "img-src 'self' data: https:",
       "font-src 'self'",
       "connect-src 'self' https://plausible.io https://app.cal.eu",
-      "frame-src https://cal.com https://app.cal.eu",
+      `frame-src https://cal.com https://app.cal.eu${isVercelPreview ? " https://vercel.live" : ""}`,
     ].join("; "),
   },
 ];
