@@ -15,7 +15,7 @@ const securityHeaders = [
       // 'unsafe-eval' required by React/Turbopack in dev mode only
       `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${isVercelPreview ? " https://vercel.live" : ""} https://plausible.io`,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
+      "img-src 'self' data:",
       "font-src 'self'",
       "connect-src 'self' https://plausible.io https://app.cal.eu",
       `frame-src https://cal.com https://app.cal.eu${isVercelPreview ? " https://vercel.live" : ""}`,

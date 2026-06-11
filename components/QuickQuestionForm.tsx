@@ -11,6 +11,8 @@ export default function QuickQuestionForm() {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
+	// Honeypot — hidden from real users; bots that fill it are silently dropped
+	const [website, setWebsite] = useState("");
 	const [submitting, setSubmitting] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [submitted, setSubmitted] = useState(false);
@@ -20,12 +22,17 @@ export default function QuickQuestionForm() {
 		setSubmitting(true);
 		setError(null);
 
-		const result = await sendQuestion({ name, email, message });
+		try {
+			const result = await sendQuestion({ name, email, message, website });
 
-		if (result.success) {
-			setSubmitted(true);
-		} else {
-			setError(result.error ?? "Something went wrong. Please try again.");
+			if (result.success) {
+				setSubmitted(true);
+			} else {
+				setError(result.error ?? "Something went wrong. Please try again.");
+				setSubmitting(false);
+			}
+		} catch {
+			setError("Something went wrong. Please try again.");
 			setSubmitting(false);
 		}
 	}
@@ -46,6 +53,20 @@ export default function QuickQuestionForm() {
 
 	return (
 		<form onSubmit={handleSubmit} className="flex flex-col gap-5">
+			{/* Honeypot field — offscreen and untabbable for real users */}
+			<div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+				<label htmlFor="q-website">Website</label>
+				<input
+					id="q-website"
+					name="website"
+					type="text"
+					tabIndex={-1}
+					autoComplete="off"
+					value={website}
+					onChange={(e) => setWebsite(e.target.value)}
+				/>
+			</div>
+
 			<div className="flex flex-col gap-1.5">
 				<label htmlFor="q-name" className="text-sm font-medium text-foreground">
 					Your name
@@ -59,7 +80,6 @@ export default function QuickQuestionForm() {
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 					className={ic}
-					placeholder="Jan de Vries"
 				/>
 			</div>
 
@@ -79,7 +99,6 @@ export default function QuickQuestionForm() {
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					className={ic}
-					placeholder="jan@devriesloodgieters.nl"
 				/>
 			</div>
 
@@ -98,7 +117,6 @@ export default function QuickQuestionForm() {
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 					className={`${ic} w-full resize-none`}
-					placeholder="What would you like to know?"
 				/>
 			</div>
 

@@ -5,8 +5,8 @@
 export const siteConfig = {
 	// Privacy policy placeholders
 	clientName: "dehaas webservice",
-	kvkNumber: "[placeholder]", // fill in when KvK registration is done
-	controllerAddress: "[placeholder]", // registered address
+	kvkNumber: "42080935",
+	controllerAddress: "Klaasje Zevensterstraat 441, 1183 MD Amstelveen",
 	contactEmail: "info@dehaaswebservice.nl",
 	siteUrl: "https://dehaaswebservice.nl",
 	dataProcessors:
@@ -16,4 +16,12 @@ export const siteConfig = {
 	// Compliance toggles
 	requiresCookieConsent: false, // flip to true when an embed sets cookies (Cal.com, Stripe, YouTube)
 	defaultLocale: "nl" as "nl" | "en",
+
+	// Cal.com booking
+	cal: {
+		username: "dehaas",
+		eventTypeSlug: "free-consult",
+		eventTypeId: 305419,
+		timeZone: "Europe/Amsterdam",
+	},
 };

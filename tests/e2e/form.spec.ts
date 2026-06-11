@@ -27,8 +27,10 @@ test.describe("Contact page forms", () => {
 	});
 
 	test("submit button exists", async ({ page }) => {
-		// The form should have a submit button (even if later sections are locked)
-		const submit = page.getByRole("button", { name: /send request/i });
+		// The form should have a submit button (even if later sections are locked).
+		// Section 5 is collapsed (inert) by default, so getByRole can't see
+		// it — use a plain CSS locator instead, which ignores inert.
+		const submit = page.locator("button", { hasText: /book call/i });
 		await expect(submit).toBeAttached();
 	});
 

@@ -3,7 +3,7 @@
 import { useEffect, useState, useTransition } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getAvailableSlots, type SlotsMap } from "@/app/actions/cal-slots";
+import type { SlotsMap } from "@/app/api/slots/route";
 
 const TZ = "Europe/Amsterdam";
 const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -50,10 +50,19 @@ export default function CalTimePicker({
 	const [isPending, startTransition] = useTransition();
 
 	useEffect(() => {
+		let cancelled = false;
 		startTransition(async () => {
-			const data = await getAvailableSlots(year, month);
-			setSlots(data);
+			try {
+				const res = await fetch(`/api/slots?year=${year}&month=${month}`);
+				const data: SlotsMap = res.ok ? await res.json() : {};
+				if (!cancelled) setSlots(data);
+			} catch {
+				if (!cancelled) setSlots({});
+			}
 		});
+		return () => {
+			cancelled = true;
+		};
 	}, [year, month]);
 
 	const today = todayKey();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Check, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CalTimePicker from "@/components/CalTimePicker";
@@ -57,6 +57,54 @@ function PillRadio({
 						value={opt.value}
 						checked={value === opt.value}
 						onChange={() => onChange(opt.value)}
+						className="sr-only"
+					/>
+					{opt.label}
+				</label>
+			))}
+		</div>
+	);
+}
+
+// ─── Pill multi-select checkbox ──────────────────────────────────────────────
+
+function PillCheckbox({
+	name,
+	options,
+	value,
+	onChange,
+}: {
+	name: string;
+	options: { value: string; label: string }[];
+	value: string[];
+	onChange: (v: string[]) => void;
+}) {
+	function toggle(optValue: string) {
+		onChange(
+			value.includes(optValue)
+				? value.filter((v) => v !== optValue)
+				: [...value, optValue],
+		);
+	}
+
+	return (
+		<div className="flex flex-wrap gap-2">
+			{options.map((opt) => (
+				<label
+					key={opt.value}
+					className={cn(
+						"flex cursor-pointer select-none items-center rounded-lg border px-4 py-2 text-sm transition-colors duration-150",
+						value.includes(opt.value)
+							? "border-primary bg-primary/10 font-medium text-primary"
+							: "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground",
+					)}
+				>
+					<input
+						type="checkbox"
+						name={name}
+						value={opt.value}
+						checked={value.includes(opt.value)}
+						onChange={() => toggle(opt.value)}
 						className="sr-only"
 					/>
 					{opt.label}
@@ -143,11 +191,12 @@ function SectionShell({
 				)}
 			</button>
 
-			{/* Animated content area */}
+			{/* Animated content area — inert when collapsed so hidden fields are
+			    neither focusable nor exposed to assistive technology */}
 			<div
 				className="grid transition-[grid-template-rows] duration-300 ease-in-out"
 				style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
-				aria-hidden={!open}
+				inert={!open}
 			>
 				<div className="overflow-hidden">
 					<div className="border-t border-border px-6 pb-8 pt-6">
@@ -167,6 +216,8 @@ interface FormValues {
 	hasWebsite: string;
 	websiteUrl: string;
 	websiteProblem: string;
+	currentHost: string;
+	domainSameHost: string;
 	hasDomain: string;
 	domainName: string;
 	designCertainty: string;
@@ -176,6 +227,8 @@ interface FormValues {
 	textReady: string;
 	photosReady: string;
 	hasLogo: string;
+	needsHelp: string;
+	helpAreas: string[];
 	questions: string;
 }
 
@@ -194,8 +247,11 @@ function buildNotes(v: FormValues): string {
 		"within-a-few-weeks": "Within a few weeks",
 		asap: "As soon as possible",
 	};
-	const ready: Record<string, string> = {
-		yes: "Yes", partly: "Partly", "no-help-needed": "No — needs help", no: "No — needs help",
+	const textReadiness: Record<string, string> = {
+		"1": "Nothing written yet", "2": "Some notes, need help", "3": "Mostly written", "4": "All ready to go",
+	};
+	const photoReadiness: Record<string, string> = {
+		"1": "No photos yet", "2": "A few, need more", "3": "Mostly have what I need", "4": "All ready to go",
 	};
 	const domain: Record<string, string> = { yes: "Yes", no: "No", "not-sure": "Not sure" };
 
@@ -208,6 +264,8 @@ function buildNotes(v: FormValues): string {
 	if (v.hasWebsite === "yes") {
 		if (v.websiteUrl) lines.push(`URL: ${v.websiteUrl}`);
 		if (v.websiteProblem) lines.push(`Why changing: ${v.websiteProblem}`);
+		if (v.currentHost) lines.push(`Currently hosted at: ${v.currentHost}`);
+		if (v.domainSameHost) lines.push(`Domain registered with same provider: ${l(domain, v.domainSameHost)}`);
 	} else if (v.hasWebsite === "no") {
 		lines.push(`Domain owned: ${l(domain, v.hasDomain)}`);
 		if (v.hasDomain === "yes" && v.domainName) lines.push(`Domain: ${v.domainName}`);
@@ -223,10 +281,22 @@ function buildNotes(v: FormValues): string {
 
 	lines.push(
 		"",
-		`Text ready: ${l(ready, v.textReady)}`,
-		`Photos ready: ${l(ready, v.photosReady)}`,
-		`Logo: ${v.hasLogo === "yes" ? "Yes" : "No — needs help"}`,
+		`Text ready: ${l(textReadiness, v.textReady)}`,
+		`Photos ready: ${l(photoReadiness, v.photosReady)}`,
+		`Logo: ${v.hasLogo === "yes" ? "Yes" : "No"}`,
 	);
+
+	const helpLabels: Record<string, string> = {
+		text: "Writing text/copy",
+		photos: "Photos & images",
+		logo: "Logo/branding",
+	};
+	if (v.needsHelp === "yes") {
+		const areas = v.helpAreas.map((a) => helpLabels[a] ?? a);
+		lines.push(`Needs help with: ${areas.length ? areas.join(", ") : "Yes (not specified)"}`);
+	} else if (v.needsHelp === "no") {
+		lines.push("Needs help with: No");
+	}
 
 	if (v.questions) lines.push("", `Questions:\n${v.questions}`);
 
@@ -250,6 +320,8 @@ export default function CallRequestForm() {
 		"",
 	);
 	const [domainName, setDomainName] = useState("");
+	const [currentHost, setCurrentHost] = useState("");
+	const [domainSameHost, setDomainSameHost] = useState("");
 
 	// Section 3 — tracked for completion
 	const [designCertainty, setDesignCertainty] = useState("");
@@ -261,9 +333,14 @@ export default function CallRequestForm() {
 	const [textReady, setTextReady] = useState("");
 	const [photosReady, setPhotosReady] = useState("");
 	const [hasLogo, setHasLogo] = useState("");
+	const [needsHelp, setNeedsHelp] = useState("");
+	const [helpAreas, setHelpAreas] = useState<string[]>([]);
 
 	// Section 5
 	const [questions, setQuestions] = useState("");
+
+	// Honeypot — hidden from real users; bots that fill it are silently dropped
+	const [website, setWebsite] = useState("");
 
 	// Accordion state
 	const [closedByUser, setClosedByUser] = useState<Set<SectionId>>(new Set());
@@ -273,6 +350,13 @@ export default function CallRequestForm() {
 	const [submitting, setSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState<string | null>(null);
 	const [submitted, setSubmitted] = useState(false);
+	const successRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (submitted) {
+			successRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+		}
+	}, [submitted]);
 
 	const unlockedSections = useMemo<Set<SectionId>>(() => {
 		const s = new Set<SectionId>([1]);
@@ -304,33 +388,43 @@ export default function CallRequestForm() {
 		setSubmitting(true);
 		setSubmitError(null);
 
-		const result = await createBooking({
-			start: selectedSlot,
-			name: fullName,
-			email,
-			notes: buildNotes({
-				businessName,
-				phone,
-				hasWebsite,
-				websiteUrl,
-				websiteProblem,
-				hasDomain,
-				domainName,
-				designCertainty,
-				pageCount,
-				functionalityText,
-				timeline,
-				textReady,
-				photosReady,
-				hasLogo,
-				questions,
-			}),
-		});
+		try {
+			const result = await createBooking({
+				start: selectedSlot,
+				name: fullName,
+				email,
+				website,
+				notes: buildNotes({
+					businessName,
+					phone,
+					hasWebsite,
+					websiteUrl,
+					websiteProblem,
+					currentHost,
+					domainSameHost,
+					hasDomain,
+					domainName,
+					designCertainty,
+					pageCount,
+					functionalityText,
+					timeline,
+					textReady,
+					photosReady,
+					hasLogo,
+					needsHelp,
+					helpAreas,
+					questions,
+				}),
+			});
 
-		if (result.success) {
-			setSubmitted(true);
-		} else {
-			setSubmitError(result.error ?? "Something went wrong. Please try again.");
+			if (result.success) {
+				setSubmitted(true);
+			} else {
+				setSubmitError(result.error ?? "Something went wrong. Please try again.");
+				setSubmitting(false);
+			}
+		} catch {
+			setSubmitError("Something went wrong. Please try again.");
 			setSubmitting(false);
 		}
 	}
@@ -376,7 +470,10 @@ export default function CallRequestForm() {
 
 	if (submitted) {
 		return (
-			<div className="rounded-2xl border border-primary/30 bg-card px-6 py-10 text-center">
+			<div
+				ref={successRef}
+				className="scroll-mt-24 rounded-2xl border border-primary/30 bg-card px-6 py-10 text-center"
+			>
 				<Check className="mx-auto mb-4 h-8 w-8 text-primary" />
 				<h3 className="mb-1.5 text-base font-semibold text-foreground">
 					Request received!
@@ -396,6 +493,20 @@ export default function CallRequestForm() {
 				prepare so we can use our 30 minutes as well as possible. Nothing here
 				is set in stone.
 			</p>
+
+			{/* Honeypot field — offscreen and untabbable for real users */}
+			<div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+				<label htmlFor="cr-website">Website</label>
+				<input
+					id="cr-website"
+					name="website"
+					type="text"
+					tabIndex={-1}
+					autoComplete="off"
+					value={website}
+					onChange={(e) => setWebsite(e.target.value)}
+				/>
+			</div>
 
 			{/* ── Section 1: About you ── */}
 			<SectionShell {...shellProps(1)}>
@@ -511,6 +622,38 @@ export default function CallRequestForm() {
 									onChange={(e) => setWebsiteProblem(e.target.value)}
 									className={tc}
 									placeholder="It's outdated, hard to find on Google, doesn't look good on mobile…"
+								/>
+							</div>
+							<div>
+								<label htmlFor="current-host" className={lc}>
+									Where is your website currently hosted?{" "}
+									<span className="font-normal text-muted-foreground">
+										(optional)
+									</span>
+								</label>
+								<input
+									id="current-host"
+									name="current-host"
+									type="text"
+									value={currentHost}
+									onChange={(e) => setCurrentHost(e.target.value)}
+									className={ic}
+									placeholder="e.g. Hostinger, TransIP, Wix, WordPress.com — or “not sure”"
+								/>
+							</div>
+							<div>
+								<span className={lc}>
+									Is your domain name registered with the same company?
+								</span>
+								<PillRadio
+									name="domain-same-host"
+									options={[
+										{ value: "yes", label: "Yes" },
+										{ value: "no", label: "No" },
+										{ value: "not-sure", label: "Not sure" },
+									]}
+									value={domainSameHost}
+									onChange={setDomainSameHost}
 								/>
 							</div>
 						</>
@@ -631,9 +774,10 @@ export default function CallRequestForm() {
 						<PillRadio
 							name="text-ready"
 							options={[
-								{ value: "yes", label: "Yes" },
-								{ value: "partly", label: "Partly" },
-								{ value: "no-help-needed", label: "No, I need help" },
+								{ value: "1", label: "Nothing written yet" },
+								{ value: "2", label: "Some notes, need help" },
+								{ value: "3", label: "Mostly written" },
+								{ value: "4", label: "All ready to go" },
 							]}
 							value={textReady}
 							onChange={setTextReady}
@@ -645,9 +789,10 @@ export default function CallRequestForm() {
 						<PillRadio
 							name="photos-ready"
 							options={[
-								{ value: "yes", label: "Yes" },
-								{ value: "partly", label: "Partly" },
-								{ value: "no", label: "No, I need help" },
+								{ value: "1", label: "No photos yet" },
+								{ value: "2", label: "A few, need more" },
+								{ value: "3", label: "Mostly have what I need" },
+								{ value: "4", label: "All ready to go" },
 							]}
 							value={photosReady}
 							onChange={setPhotosReady}
@@ -660,12 +805,44 @@ export default function CallRequestForm() {
 							name="has-logo"
 							options={[
 								{ value: "yes", label: "Yes" },
-								{ value: "no", label: "No, I need help" },
+								{ value: "no", label: "No" },
 							]}
 							value={hasLogo}
 							onChange={setHasLogo}
 						/>
 					</div>
+
+					<div>
+						<span className={lc}>Do you need help with any of these?</span>
+						<PillRadio
+							name="needs-help"
+							options={[
+								{ value: "yes", label: "Yes" },
+								{ value: "no", label: "No" },
+							]}
+							value={needsHelp}
+							onChange={(v) => {
+								setNeedsHelp(v);
+								if (v === "no") setHelpAreas([]);
+							}}
+						/>
+					</div>
+
+					{needsHelp === "yes" && (
+						<div>
+							<span className={lc}>What do you need help with?</span>
+							<PillCheckbox
+								name="help-areas"
+								options={[
+									{ value: "text", label: "Writing text / copy" },
+									{ value: "photos", label: "Photos & images" },
+									{ value: "logo", label: "Logo / branding" },
+								]}
+								value={helpAreas}
+								onChange={setHelpAreas}
+							/>
+						</div>
+					)}
 
 					<p className="rounded-xl border border-border bg-muted/40 px-4 py-3.5 text-sm leading-relaxed text-muted-foreground">
 						<strong className="text-foreground">Tip:</strong> The more text,
