@@ -13,11 +13,11 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // 'unsafe-eval' required by React/Turbopack in dev mode only
-      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${isVercelPreview ? " https://vercel.live" : ""} https://plausible.io`,
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}${isVercelPreview ? " https://vercel.live" : ""}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self'",
-      "connect-src 'self' https://plausible.io https://app.cal.eu",
+      "connect-src 'self' https://app.cal.eu",
       `frame-src https://cal.com https://app.cal.eu${isVercelPreview ? " https://vercel.live" : ""}`,
     ].join("; "),
   },

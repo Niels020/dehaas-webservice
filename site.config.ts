@@ -10,7 +10,7 @@ export const siteConfig = {
 	contactEmail: "info@dehaaswebservice.nl",
 	siteUrl: "https://dehaaswebservice.nl",
 	dataProcessors:
-		"- Vercel Inc. — hosting (US, EU-US DPF)\n- Plausible Insights OÜ — website analytics (EU)\n- UptimeRobot — uptime monitoring (EU/US)",
+		"- Vercel Inc. — hosting (US, EU-US DPF)\n- UptimeRobot — uptime monitoring (EU/US)",
 	effectiveDate: "2026-05-16",
 
 	// Compliance toggles

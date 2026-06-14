@@ -132,8 +132,14 @@ const maintenanceItems = [
 const changeProcessSection = {
 	heading: "Website change process",
 	subheading: "All changes you want, done by me.",
-	body: "Whenever you want something changed, send me an email. Tell me where the change should be and what you want it to say or show. One smaller change per month is included: think opening hours, updated prices, or some sentences on the homepage. For anything bigger, like a new page or a redesigned section, I send you a quote before I start. Every change goes through me, which means it is done properly and nothing breaks. The trade-off is that you cannot make changes yourself and depend on me when something needs updating.",
 };
+
+const changeProcessParagraphs = [
+	"Email your change requests to me. For each change, tell me the page (link), what's there now, and what it should say or show instead. You can include multiple changes in one email.",
+	"One smaller text change per month is included free: things like opening hours, prices, or a few sentences of copy. Image swaps count too, up to two per change. Anything bigger like a new page, a redesigned section, or a design tweak like spacing or colors, I'll quote before starting.",
+	"Once I've made the change, I send you a preview link showing exactly what it'll look like. You approve and it goes live, or you tell me what's off and I adjust. Nothing reaches the live site without your sign-off.",
+	"Smaller changes are turned around the same or next business day. Bigger changes take up to a week, quoted up front. An urgent smaller change you need live the same day is a flat €95.",
+];
 
 const responseTimesSection = {
 	heading: "Response times",
@@ -260,13 +266,6 @@ const techItems = [
 		description:
 			"Every update to the site, whether mine or one you've requested, gets a private preview link before it goes live. Nothing reaches your real visitors until I sign off and you've seen it.",
 		forYou: "Zero surprises on the live site, ever.",
-	},
-	{
-		name: "Plausible analytics",
-		description:
-			"Privacy-friendly analytics with no cookies and no banner, GDPR-compliant out of the box.",
-		forYou:
-			"Real visitor data without the legal overhead, and without the cookie pop-up that puts off visitors before they reach the page.",
 	},
 	{
 		name: "UptimeRobot monitoring",
@@ -559,12 +558,15 @@ export default function ServicesPage() {
 					>
 						{changeProcessSection.heading}
 					</h2>
-					<p className="mb-4 max-w-2xl text-lg text-muted-foreground">
+					<p className="mb-6 max-w-2xl text-lg text-muted-foreground">
 						{changeProcessSection.subheading}
 					</p>
-					<p className="max-w-2xl text-base leading-relaxed text-muted-foreground">
-						{changeProcessSection.body}
-					</p>
+
+					<div className="max-w-2xl space-y-4 text-base leading-relaxed text-muted-foreground">
+						{changeProcessParagraphs.map((paragraph) => (
+							<p key={paragraph}>{paragraph}</p>
+						))}
+					</div>
 				</div>
 			</section>
 

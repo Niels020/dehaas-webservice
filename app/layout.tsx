@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -48,17 +47,6 @@ export default function RootLayout({
 			lang={siteConfig.defaultLocale}
 			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
 		>
-			<head>
-				{/* Plausible analytics — privacy-friendly, no cookies, no banner needed.
-				    Only loads in production (Plausible ignores localhost automatically,
-				    but next/script strategy="afterInteractive" keeps it out of SSR). */}
-				<Script
-					defer
-					data-domain="dehaaswebservice.nl"
-					src="https://plausible.io/js/script.js"
-					strategy="afterInteractive"
-				/>
-			</head>
 			<body className="flex min-h-full flex-col">
 				{/* <UnderConstruction /> */}
 				<Header />
