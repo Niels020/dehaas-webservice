@@ -24,9 +24,12 @@ export default function ContactPage() {
 						Book a call
 					</h1>
 					<p className="mt-6 text-lg leading-relaxed text-muted-foreground">
-						Thirty minutes is enough to cover the basics: what your business
-						does, what you need from a website, and whether I am the right fit
-						to build it. There is no obligation and no sales pressure.
+						This first consult is free of charge. There is no obligation and no
+						sales pressure. I will shortly tell you about me and the service I
+						offer. Then I like to know about you and the business needs you
+						have. Finally we can go over some designs and work on yours. My goal
+						in this call is to have completed a first design of your new website
+						that, hopefully, you will love.
 					</p>
 					<p className="mt-4 text-sm text-muted-foreground">
 						Just have a quick question?{" "}
